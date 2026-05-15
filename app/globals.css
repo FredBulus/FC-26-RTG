@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(4, 245, 255, 0.28), transparent 28rem),
+    linear-gradient(315deg, rgba(255, 40, 130, 0.18), transparent 24rem),
+    #f5f2fa;
+  color: #260034;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.pitch-lines {
+  background-image:
+    linear-gradient(rgba(55, 0, 80, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(55, 0, 80, 0.045) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
