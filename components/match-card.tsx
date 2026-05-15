@@ -3,8 +3,8 @@ import type { Fixture, KnockoutMatch } from "@/lib/types";
 
 type MatchLike = Fixture | KnockoutMatch;
 
-function teamName(team?: { name: string } | null) {
-return team?.name ?? "TBC";
+function teamName(team?: { name: string } | null, seed?: string | null) {
+  return team?.name ?? seed ?? "TBC";
 }
 
 function score(match: MatchLike) {
@@ -36,13 +36,13 @@ export function MatchCard({ match }: { match: MatchLike }) {
       </div>
       <div className="grid grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] items-center gap-2 sm:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] sm:gap-3">
         <p className="min-w-0 break-words text-right text-sm font-black leading-tight text-ink sm:text-lg">
-          {teamName(match.home_team)}
+          {teamName(match.home_team, homeSeed)}
         </p>
         <p className="min-w-14 rounded bg-gradient-to-r from-cyan to-turf px-2 py-2 text-center text-base font-black text-ink sm:min-w-16 sm:px-3 sm:text-lg">
           {score(match)}
         </p>
         <p className="min-w-0 break-words text-sm font-black leading-tight text-ink sm:text-lg">
-          {teamName(match.away_team)}
+          {teamName(match.away_team, awaySeed)}
         </p>
       </div>
       <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold text-ink/58">
