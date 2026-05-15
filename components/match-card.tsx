@@ -4,7 +4,7 @@ import type { Fixture, KnockoutMatch } from "@/lib/types";
 type MatchLike = Fixture | KnockoutMatch;
 
 function teamName(team?: { name: string } | null) {
-return team?.name ?? “TBC”;
+return team?.name ?? "TBC";
 }
 
 function score(match: MatchLike) {
