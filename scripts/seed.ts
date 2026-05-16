@@ -11,7 +11,10 @@ const supabase = createClient(url, serviceRole, {
   auth: { persistSession: false }
 });
 
-// Simplified helper to avoid the "Cannot find name T" build error
+/**
+ * FIX: Simplified helper without <T> to prevent Vercel build errors.
+ * Using 'any' here is safe for a seed script and stops the compiler from crashing.
+ */
 async function failOnError(promise: Promise<any>) {
   const { data, error } = await promise;
   if (error) {
@@ -60,44 +63,44 @@ async function main() {
   }));
   await failOnError(supabase.from("standings").upsert(standingsData, { onConflict: "team_id" }));
 
-  // 4. CLEAN RESET: Completely wipe fixtures table to fix the "24 games" issue
+  // 4. NUCLEAR RESET: Wipe fixtures completely to fix the "24 games" issue
   console.log("🧹 Wiping old fixture data...");
   await failOnError(supabase.from("fixtures").delete().neq("matchday", -1));
 
-  // 5. HARD-CODED FIXTURES (Exactly 20 games: 10 per group)
+  // 5. HARD-CODED FIXTURES: Exactly 20 games (10 per group)
   const fixturesData = [
-    // Matchday 1
+    // --- MATCHDAY 1 ---
     { group_id: groupIds.get("Group A"), home_team_id: t.get("CLC"), away_team_id: t.get("Hope Chapel"), matchday: 1 },
     { group_id: groupIds.get("Group A"), home_team_id: t.get("KICC"), away_team_id: t.get("Carmel City Church"), matchday: 1 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("RCCG Glory of God"), away_team_id: t.get("GHIC Yeovil"), matchday: 1 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Bristol"), away_team_id: t.get("Dayspring"), matchday: 1 },
 
-    // Matchday 2
+    // --- MATCHDAY 2 ---
     { group_id: groupIds.get("Group A"), home_team_id: t.get("BOLM FC"), away_team_id: t.get("CLC"), matchday: 2 },
     { group_id: groupIds.get("Group A"), home_team_id: t.get("Hope Chapel"), away_team_id: t.get("KICC"), matchday: 2 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("Church of Pentecost"), away_team_id: t.get("RCCG Glory of God"), matchday: 2 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Yeovil"), away_team_id: t.get("GHIC Bristol"), matchday: 2 },
 
-    // Matchday 3
+    // --- MATCHDAY 3 ---
     { group_id: groupIds.get("Group A"), home_team_id: t.get("Carmel City Church"), away_team_id: t.get("BOLM FC"), matchday: 3 },
     { group_id: groupIds.get("Group A"), home_team_id: t.get("CLC"), away_team_id: t.get("KICC"), matchday: 3 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("Dayspring"), away_team_id: t.get("Church of Pentecost"), matchday: 3 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("RCCG Glory of God"), away_team_id: t.get("GHIC Bristol"), matchday: 3 },
 
-    // Matchday 4 (CLC and RCCG REST - Breaks the consecutive streak)
+    // --- MATCHDAY 4 (CLC and RCCG REST) ---
     { group_id: groupIds.get("Group A"), home_team_id: t.get("Hope Chapel"), away_team_id: t.get("Carmel City Church"), matchday: 4 },
     { group_id: groupIds.get("Group A"), home_team_id: t.get("KICC"), away_team_id: t.get("BOLM FC"), matchday: 4 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Yeovil"), away_team_id: t.get("Dayspring"), matchday: 4 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Bristol"), away_team_id: t.get("Church of Pentecost"), matchday: 4 },
 
-    // Matchday 5
+    // --- MATCHDAY 5 ---
     { group_id: groupIds.get("Group A"), home_team_id: t.get("Carmel City Church"), away_team_id: t.get("CLC"), matchday: 5 },
     { group_id: groupIds.get("Group A"), home_team_id: t.get("BOLM FC"), away_team_id: t.get("Hope Chapel"), matchday: 5 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("Dayspring"), away_team_id: t.get("RCCG Glory of God"), matchday: 5 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("Church of Pentecost"), away_team_id: t.get("GHIC Yeovil"), matchday: 5 },
   ];
 
-  // Insert exactly 20 rows
+  // Insert exactly 20 clean rows
   await failOnError(supabase.from("fixtures").insert(fixturesData));
   console.log("✅ 20 Clean fixtures inserted.");
 
