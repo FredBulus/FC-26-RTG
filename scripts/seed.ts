@@ -11,7 +11,7 @@ const supabase = createClient(url, serviceRole, {
   auth: { persistSession: false }
 });
 
-// Helper without generics to avoid Vercel "T" name build errors
+// Simplified helper to avoid the "Cannot find name T" build error
 async function failOnError(promise: Promise<any>) {
   const { data, error } = await promise;
   if (error) {
@@ -60,11 +60,11 @@ async function main() {
   }));
   await failOnError(supabase.from("standings").upsert(standingsData, { onConflict: "team_id" }));
 
-  // 4. NUCLEAR RESET: This wipes the fixtures table completely
+  // 4. CLEAN RESET: Completely wipe fixtures table to fix the "24 games" issue
   console.log("🧹 Wiping old fixture data...");
   await failOnError(supabase.from("fixtures").delete().neq("matchday", -1));
 
-  // 5. HARD-CODED FIXTURES (Exactly 20 games, 4 matches per matchday)
+  // 5. HARD-CODED FIXTURES (Exactly 20 games: 10 per group)
   const fixturesData = [
     // Matchday 1
     { group_id: groupIds.get("Group A"), home_team_id: t.get("CLC"), away_team_id: t.get("Hope Chapel"), matchday: 1 },
@@ -84,7 +84,7 @@ async function main() {
     { group_id: groupIds.get("Group B"), home_team_id: t.get("Dayspring"), away_team_id: t.get("Church of Pentecost"), matchday: 3 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("RCCG Glory of God"), away_team_id: t.get("GHIC Bristol"), matchday: 3 },
 
-    // Matchday 4 (CLC and RCCG REST)
+    // Matchday 4 (CLC and RCCG REST - Breaks the consecutive streak)
     { group_id: groupIds.get("Group A"), home_team_id: t.get("Hope Chapel"), away_team_id: t.get("Carmel City Church"), matchday: 4 },
     { group_id: groupIds.get("Group A"), home_team_id: t.get("KICC"), away_team_id: t.get("BOLM FC"), matchday: 4 },
     { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Yeovil"), away_team_id: t.get("Dayspring"), matchday: 4 },
@@ -97,7 +97,7 @@ async function main() {
     { group_id: groupIds.get("Group B"), home_team_id: t.get("Church of Pentecost"), away_team_id: t.get("GHIC Yeovil"), matchday: 5 },
   ];
 
-  // Using .insert instead of .upsert to ensure zero duplicates
+  // Insert exactly 20 rows
   await failOnError(supabase.from("fixtures").insert(fixturesData));
   console.log("✅ 20 Clean fixtures inserted.");
 
