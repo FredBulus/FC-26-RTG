@@ -25,9 +25,10 @@ const teams = [
   ["Church of Pentecost", "Group B", 5]
 ] as const;
 
-function failOnError<T>({ error, data }: { error: { message: string } | null; data: T }) {
-  if (error) throw error;
-  return data;
+// FIX: Standard function wrapper to resolve Vercel build syntax errors
+function failOnError<T>(obj: { error: { message: string } | null; data: T }): T {
+  if (obj.error) throw obj.error;
+  return obj.data;
 }
 
 async function main() {
@@ -65,30 +66,47 @@ async function main() {
     )
   );
 
-  const fixtures = groups.flatMap((groupName) => {
+  // FIX: Round Robin Scheduler (Teams will not play consecutively)
+  const fixtures: {
+    group_id: string;
+    home_team_id: string;
+    away_team_id: string;
+    matchday: number;
+  }[] = [];
+
+  let globalMatchday = 1;
+
+  groups.forEach((groupName) => {
     const groupId = groupIds.get(groupName)!;
     const groupTeams = teamRows
       .filter((team) => team.group_id === groupId)
       .sort((a, b) => a.display_order - b.display_order);
 
-    const rows: {
-      group_id: string;
-      home_team_id: string;
-      away_team_id: string;
-      matchday: number;
-    }[] = [];
-    let matchday = 1;
-    for (let i = 0; i < groupTeams.length; i += 1) {
-      for (let j = i + 1; j < groupTeams.length; j += 1) {
-        rows.push({
-          group_id: groupId,
-          home_team_id: groupTeams[i].id,
-          away_team_id: groupTeams[j].id,
-          matchday: matchday++
-        });
+    const numTeams = groupTeams.length;
+    // 5 teams requires a dummy "null" (BYE) element to balance the scheduling circle
+    const list = [...groupTeams, null]; 
+    const rounds = numTeams; 
+
+    for (let round = 0; round < rounds; round++) {
+      for (let i = 0; i < list.length / 2; i++) {
+        const home = list[i];
+        const away = list[list.length - 1 - i];
+
+        if (home !== null && away !== null) {
+          fixtures.push({
+            group_id: groupId,
+            home_team_id: home.id,
+            away_team_id: away.id,
+            matchday: globalMatchday++ 
+          });
+        }
       }
+      
+      // Pivot array configuration for the next round
+      const rest = list.slice(1);
+      const last = rest.pop()!;
+      list.splice(1, list.length - 1, last, ...rest);
     }
-    return rows;
   });
 
   await failOnError(
