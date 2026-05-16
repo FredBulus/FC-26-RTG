@@ -25,9 +25,9 @@ const teams = [
   ["Church of Pentecost", "Group B", 5]
 ] as const;
 
-function failOnError<T>({ error, data }: { error: { message: string } | null; data: T }) {
-  if (error) throw error;
-  return data;
+function failOnError<T>(obj: { error: { message: string } | null; data: T }): T {
+  if (obj.error) throw obj.error;
+  return obj.data;
 }
 
 import { createClient } from "@supabase/supabase-js";
