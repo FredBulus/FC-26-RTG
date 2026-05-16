@@ -1,30 +1,30 @@
-import { createClient } from “@supabase/supabase-js”;
+import { createClient } from "@supabase/supabase-js”;
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !serviceRole) {
-throw new Error(“Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before seeding.”);
+throw new Error("Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before seeding.”);
 }
 
 const supabase = createClient(url, serviceRole, {
 auth: { persistSession: false }
 });
 
-const groups = [“Group A”, “Group B”] as const;
+const groups = ["Group A”, "Group B”] as const;
 
 const teams = [
-[“CLC”, “Group A”, 1],
-[“Hope Chapel”, “Group A”, 2],
-[“KICC”, “Group A”, 3],
-[“Carmel City Church”, “Group A”, 4],
-[“BOLM FC”, “Group A”, 5],
+["CLC”, "Group A”, 1],
+["Hope Chapel”, "Group A”, 2],
+["KICC”, "Group A”, 3],
+["Carmel City Church”, "Group A”, 4],
+["BOLM FC”, "Group A”, 5],
 
-[“RCCG Glory of God”, “Group B”, 1],
-[“GHIC Yeovil”, “Group B”, 2],
-[“GHIC Bristol”, “Group B”, 3],
-[“Dayspring”, “Group B”, 4],
-[“Church of Pentecost”, “Group B”, 5]
+["RCCG Glory of God”, "Group B”, 1],
+["GHIC Yeovil”, "Group B”, 2],
+["GHIC Bristol”, "Group B”, 3],
+["Dayspring”, "Group B”, 4],
+["Church of Pentecost”, "Group B”, 5]
 ] as const;
 
 function failOnError({
@@ -40,50 +40,50 @@ return data;
 
 async function main() {
 await failOnError(
-await supabase.from(“groups”).upsert(
+await supabase.from("groups”).upsert(
 groups.map((name) => ({ name })),
-{ onConflict: “name” }
+{ onConflict: "name” }
 )
 );
 
 const groupRows =
 (await failOnError(
-await supabase.from(“groups”).select(“id,name”).in(“name”, […groups])
+await supabase.from("groups”).select("id,name”).in("name”, […groups])
 )) ?? [];
 
 const groupIds = new Map(groupRows.map((group) => [group.name, group.id]));
 
 await failOnError(
-await supabase.from(“teams”).upsert(
+await supabase.from("teams”).upsert(
 teams.map(([name, groupName, displayOrder]) => ({
 name,
 group_id: groupIds.get(groupName)!,
 display_order: displayOrder
 })),
-{ onConflict: “name” }
+{ onConflict: "name” }
 )
 );
 
 const teamRows =
 (await failOnError(
 await supabase
-.from(“teams”)
-.select(“id,name,group_id,display_order”)
-.order(“display_order”)
+.from("teams”)
+.select("id,name,group_id,display_order”)
+.order("display_order”)
 )) ?? [];
 
 await failOnError(
-await supabase.from(“standings”).upsert(
+await supabase.from("standings”).upsert(
 teamRows.map((team) => ({
 team_id: team.id,
 group_id: team.group_id
 })),
-{ onConflict: “team_id” }
+{ onConflict: "team_id” }
 )
 );
 
 // Clear existing fixtures before reseeding
-await failOnError(await supabase.from(“fixtures”).delete().neq(“id”, “”));
+await failOnError(await supabase.from("fixtures”).delete().neq("id”, "”));
 
 const fixtures = groups.flatMap((groupName) => {
 const groupId = groupIds.get(groupName)!;
@@ -137,44 +137,44 @@ return rows;
 });
 
 await failOnError(
-await supabase.from(“fixtures”).insert(fixtures)
+await supabase.from("fixtures”).insert(fixtures)
 );
 
 await failOnError(
-await supabase.from(“knockout_matches”).upsert(
+await supabase.from("knockout_matches”).upsert(
 [
 {
-round: “Semi Final”,
-label: “SF1”,
+round: "Semi Final”,
+label: "SF1”,
 sort_order: 1,
-home_seed: “1st Group A”,
-away_seed: “2nd Group B”
+home_seed: "1st Group A”,
+away_seed: "2nd Group B”
 },
 {
-round: “Semi Final”,
-label: “SF2”,
+round: "Semi Final”,
+label: "SF2”,
 sort_order: 2,
-home_seed: “1st Group B”,
-away_seed: “2nd Group A”
+home_seed: "1st Group B”,
+away_seed: "2nd Group A”
 },
 {
-round: “Final”,
-label: “Final”,
+round: "Final”,
+label: "Final”,
 sort_order: 3,
-home_seed: “Winner SF1”,
-away_seed: “Winner SF2”
+home_seed: "Winner SF1”,
+away_seed: "Winner SF2”
 }
 ],
-{ onConflict: “label” }
+{ onConflict: "label” }
 )
 );
 
-await failOnError(await supabase.rpc(“recalculate_standings”));
+await failOnError(await supabase.rpc("recalculate_standings”));
 
 // Leave this disabled until group matches are completed
-// await failOnError(await supabase.rpc(“refresh_knockout_seeds”));
+// await failOnError(await supabase.rpc("refresh_knockout_seeds”));
 
-console.log(“Seeded Legacy Tournament 2026.”);
+console.log("Seeded Legacy Tournament 2026.”);
 }
 
 main().catch((error) => {
