@@ -30,6 +30,38 @@ function failOnError<T>({ error, data }: { error: { message: string } | null; da
   return data;
 }
 
+import { createClient } from "@supabase/supabase-js";
+
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!url || !serviceRole) {
+  throw new Error("Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before seeding.");
+}
+
+const supabase = createClient(url, serviceRole, {
+  auth: { persistSession: false }
+});
+
+const groups = ["Group A", "Group B"] as const;
+const teams = [
+  ["CLC", "Group A", 1],
+  ["Hope Chapel", "Group A", 2],
+  ["KICC", "Group A", 3],
+  ["Carmel City Church", "Group A", 4],
+  ["BOLM FC", "Group A", 5],
+  ["RCCG Glory of God", "Group B", 1],
+  ["GHIC Yeovil", "Group B", 2],
+  ["GHIC Bristol", "Group B", 3],
+  ["Dayspring", "Group B", 4],
+  ["Church of Pentecost", "Group B", 5]
+] as const;
+
+function failOnError<T>({ error, data }: { error: { message: string } | null; data: T }) {
+  if (error) throw error;
+  return data;
+}
+
 async function main() {
   failOnError(
     await supabase.from("groups").upsert(
@@ -108,6 +140,16 @@ async function main() {
     )
   );
 
+  await failOnError(await supabase.rpc("recalculate_standings"));
+  await failOnError(await supabase.rpc("refresh_knockout_seeds"));
+
+  console.log("Seeded Legacy Tournament 2026.");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
   await failOnError(await supabase.rpc("recalculate_standings"));
   await failOnError(await supabase.rpc("refresh_knockout_seeds"));
 
