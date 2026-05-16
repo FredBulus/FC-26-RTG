@@ -1,5 +1,3 @@
-
-
 import { createClient } from "@supabase/supabase-js";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -73,53 +71,26 @@ async function main() {
       .filter((team) => team.group_id === groupId)
       .sort((a, b) => a.display_order - b.display_order);
 
-    const rounds = [
-[
-[0, 1],
-[2, 3]
-],
-[
-[4, 0],
-[1, 2]
-],
-[
-[3, 4],
-[0, 2]
-],
-[
-[1, 3],
-[4, 2]
-],
-[
-[0, 3],
-[1, 4]
-]
-];
+    const rows: {
+      group_id: string;
+      home_team_id: string;
+      away_team_id: string;
+      matchday: number;
+    }[] = [];
+    let matchday = 1;
+    for (let i = 0; i < groupTeams.length; i += 1) {
+      for (let j = i + 1; j < groupTeams.length; j += 1) {
+        rows.push({
+          group_id: groupId,
+          home_team_id: groupTeams[i].id,
+          away_team_id: groupTeams[j].id,
+          matchday: matchday++
+        });
+      }
+    }
+    return rows;
+  });
 
-const rows: {
-group_id: string;
-home_team_id: string;
-away_team_id: string;
-matchday: number;
-}[] = [];
-
-rounds.forEach((round, roundIndex) => {
-round.forEach(([homeIndex, awayIndex]) => {
-const home = groupTeams[homeIndex];
-const away = groupTeams[awayIndex];
-  if (!home || !away) return;
-
-rows.push({
-  group_id: groupId,
-  home_team_id: home.id,
-  away_team_id: away.id,
-  matchday: roundIndex + 1
-});
-});
-});
-
-return rows;
-  
   await failOnError(
     await supabase.from("fixtures").upsert(fixtures, {
       onConflict: "group_id,home_team_id,away_team_id"
@@ -138,7 +109,7 @@ return rows;
   );
 
   await failOnError(await supabase.rpc("recalculate_standings"));
-  // await failOnError(await supabase.rpc("refresh_knockout_seeds"));
+  await failOnError(await supabase.rpc("refresh_knockout_seeds"));
 
   console.log("Seeded Legacy Tournament 2026.");
 }
