@@ -25,41 +25,10 @@ const teams = [
   ["Church of Pentecost", "Group B", 5]
 ] as const;
 
+// FIX: Standard function wrapper to resolve Vercel build syntax errors
 function failOnError<T>(obj: { error: { message: string } | null; data: T }): T {
   if (obj.error) throw obj.error;
   return obj.data;
-}
-
-import { createClient } from "@supabase/supabase-js";
-
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!url || !serviceRole) {
-  throw new Error("Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before seeding.");
-}
-
-const supabase = createClient(url, serviceRole, {
-  auth: { persistSession: false }
-});
-
-const groups = ["Group A", "Group B"] as const;
-const teams = [
-  ["CLC", "Group A", 1],
-  ["Hope Chapel", "Group A", 2],
-  ["KICC", "Group A", 3],
-  ["Carmel City Church", "Group A", 4],
-  ["BOLM FC", "Group A", 5],
-  ["RCCG Glory of God", "Group B", 1],
-  ["GHIC Yeovil", "Group B", 2],
-  ["GHIC Bristol", "Group B", 3],
-  ["Dayspring", "Group B", 4],
-  ["Church of Pentecost", "Group B", 5]
-] as const;
-
-function failOnError<T>({ error, data }: { error: { message: string } | null; data: T }) {
-  if (error) throw error;
-  return data;
 }
 
 async function main() {
@@ -97,30 +66,47 @@ async function main() {
     )
   );
 
-  const fixtures = groups.flatMap((groupName) => {
+  // FIX: Round Robin Scheduler (Teams will not play consecutively)
+  const fixtures: {
+    group_id: string;
+    home_team_id: string;
+    away_team_id: string;
+    matchday: number;
+  }[] = [];
+
+  let globalMatchday = 1;
+
+  groups.forEach((groupName) => {
     const groupId = groupIds.get(groupName)!;
     const groupTeams = teamRows
       .filter((team) => team.group_id === groupId)
       .sort((a, b) => a.display_order - b.display_order);
 
-    const rows: {
-      group_id: string;
-      home_team_id: string;
-      away_team_id: string;
-      matchday: number;
-    }[] = [];
-    let matchday = 1;
-    for (let i = 0; i < groupTeams.length; i += 1) {
-      for (let j = i + 1; j < groupTeams.length; j += 1) {
-        rows.push({
-          group_id: groupId,
-          home_team_id: groupTeams[i].id,
-          away_team_id: groupTeams[j].id,
-          matchday: matchday++
-        });
+    const numTeams = groupTeams.length;
+    // 5 teams requires a dummy "null" (BYE) element to balance the scheduling circle
+    const list = [...groupTeams, null]; 
+    const rounds = numTeams; 
+
+    for (let round = 0; round < rounds; round++) {
+      for (let i = 0; i < list.length / 2; i++) {
+        const home = list[i];
+        const away = list[list.length - 1 - i];
+
+        if (home !== null && away !== null) {
+          fixtures.push({
+            group_id: groupId,
+            home_team_id: home.id,
+            away_team_id: away.id,
+            matchday: globalMatchday++ 
+          });
+        }
       }
+      
+      // Pivot array configuration for the next round
+      const rest = list.slice(1);
+      const last = rest.pop()!;
+      list.splice(1, list.length - 1, last, ...rest);
     }
-    return rows;
   });
 
   await failOnError(
@@ -140,16 +126,6 @@ async function main() {
     )
   );
 
-  await failOnError(await supabase.rpc("recalculate_standings"));
-  await failOnError(await supabase.rpc("refresh_knockout_seeds"));
-
-  console.log("Seeded Legacy Tournament 2026.");
-}
-
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
   await failOnError(await supabase.rpc("recalculate_standings"));
   await failOnError(await supabase.rpc("refresh_knockout_seeds"));
 
