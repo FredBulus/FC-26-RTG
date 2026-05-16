@@ -31,9 +31,7 @@ function failOnError({
 error,
 data
 }: {
-error: { message: string } | null;
-data: T;
-}) {
+error: { message: string } | null; data: T}) {
 if (error) throw error;
 return data;
 }
