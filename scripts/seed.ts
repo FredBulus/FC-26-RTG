@@ -27,15 +27,15 @@ const teams = [
 ["Church of Pentecost", "Group B", 5]
 ] as const;
 
-function failOnError<T>({
-  error,
-  data
+function failOnError({
+error,
+data
 }: {
-  error: { message: string } | null;
-  data: T;
+error: { message: string } | null;
+data: T;
 }) {
-  if (error) throw error;
-  return data;
+if (error) throw error;
+return data;
 }
 
 async function main() {
