@@ -25,9 +25,12 @@ const teams = [
   ["Church of Pentecost", "Group B", 5]
 ] as const;
 
-// FIX: Standard function wrapper to resolve Vercel build syntax errors
-function failOnError<T>(obj: { error: { message: string } | null; data: T }): T {
-  if (obj.error) throw obj.error;
+/**
+ * FIX: Using <T,> with a comma and 'obj' instead of destructuring 
+ * prevents Vercel from confusing the generic for a JSX tag.
+ */
+function failOnError<T,>(obj: { error: { message: string } | null; data: T }): T {
+  if (obj.error) throw new Error(obj.error.message);
   return obj.data;
 }
 
@@ -69,7 +72,7 @@ async function main() {
     )
   );
 
-  // 4. CLEAN RESET: Delete existing fixtures to prevent mixing old and new schedules
+  // 4. CLEAN RESET: Delete existing fixtures
   await failOnError(
     await supabase.from("fixtures").delete().neq("group_id", "00000000-0000-0000-0000-000000000000")
   );
@@ -88,14 +91,55 @@ async function main() {
       .filter((team) => team.group_id === groupId)
       .sort((a, b) => a.display_order - b.display_order);
 
-    /**
-     * Optimized 5-team round-robin schedule
-     * Indices: 0, 1, 2, 3, 4 (Mapping to your team list)
-     * Every team plays 4 games and has 1 Bye day to rest.
-     */
     const schedule = [
       { day: 1, m1: [0, 1], m2: [2, 3] }, // Team 4 rests
       { day: 2, m1: [4, 0], m2: [1, 2] }, // Team 3 rests
       { day: 3, m1: [3, 4], m2: [0, 2] }, // Team 1 rests
-      { day: 4, m1: [1, 3], m2: [2, 4] }, // Team 0 (CLC) rests - BREAKS STREAK
-      { day: 5, m1: [3, 0], m2
+      { day: 4, m1: [1, 3], m2: [2, 4] }, // Team 0 rests
+      { day: 5, m1: [3, 0], m2: [4, 1] }, // Team 2 rests
+    ];
+
+    schedule.forEach((s) => {
+      fixtures.push({
+        group_id: groupId,
+        home_team_id: t[s.m1[0]].id,
+        away_team_id: t[s.m1[1]].id,
+        matchday: s.day
+      });
+      fixtures.push({
+        group_id: groupId,
+        home_team_id: t[s.m2[0]].id,
+        away_team_id: t[s.m2[1]].id,
+        matchday: s.day
+      });
+    });
+  });
+
+  await failOnError(
+    await supabase.from("fixtures").upsert(fixtures, {
+      onConflict: "group_id,home_team_id,away_team_id"
+    })
+  );
+
+  // 6. Seed Knockout Matches
+  await failOnError(
+    await supabase.from("knockout_matches").upsert(
+      [
+        { round: "Semi Final", label: "SF1", sort_order: 1, home_seed: "1st Group A", away_seed: "2nd Group B" },
+        { round: "Semi Final", label: "SF2", sort_order: 2, home_seed: "1st Group B", away_seed: "2nd Group A" },
+        { round: "Final", label: "Final", sort_order: 3, home_seed: "Winner SF1", away_seed: "Winner SF2" }
+      ],
+      { onConflict: "label" }
+    )
+  );
+
+  await failOnError(await supabase.rpc("recalculate_standings"));
+  await failOnError(await supabase.rpc("refresh_knockout_seeds"));
+
+  console.log("Seeded Legacy Tournament 2026 with optimized fixtures.");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
