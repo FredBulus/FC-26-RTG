@@ -26,53 +26,12 @@ const teams = [
 ] as const;
 
 // FIX: Standard function wrapper to resolve Vercel build syntax errors
-function failOnError<T>(obj: { error: { message: string } | null; data: T }): T {
-  if (obj.error) throw obj.error;
-  return obj.data;
-}
-
-async function main() {
-  failOnError(
-    await supabase.from("groups").upsert(
-      groups.map((name) => ({ name })),
-      { onConflict: "name" }
-    )
-  );
-
-  const groupRows = await failOnError(
-    await supabase.from("groups").select("id,name").in("name", [...groups])
-  ) ?? [];
-  const groupIds = new Map(groupRows.map((group) => [group.name, group.id]));
-
+// 1. DELETE EXISTING FIXTURES FIRST
   await failOnError(
-    await supabase.from("teams").upsert(
-      teams.map(([name, groupName, displayOrder]) => ({
-        name,
-        group_id: groupIds.get(groupName)!,
-        display_order: displayOrder
-      })),
-      { onConflict: "name" }
-    )
+    await supabase.from("fixtures").delete().neq("group_id", "temp_ignore")
   );
 
-  const teamRows = await failOnError(
-    await supabase.from("teams").select("id,name,group_id,display_order").order("display_order")
-  ) ?? [];
-
-  await failOnError(
-    await supabase.from("standings").upsert(
-      teamRows.map((team) => ({ team_id: team.id, group_id: team.group_id })),
-      { onConflict: "team_id" }
-    )
-  );
-
-  // FIX: Round Robin Scheduler (Teams will not play consecutively)
-  // --- DELETE EXISTING FIXTURES FIRST TO ENSURE A CLEAN RESET ---
-  await failOnError(
-    await supabase.from("fixtures").delete().neq("id", "00000000-0000-0000-0000-000000000000")
-  );
-
-  // FIX: Truly Synchronized Round-Robin Scheduler
+  // 2. GENERATE OPTIMIZED FIXTURES
   const fixtures: {
     group_id: string;
     home_team_id: string;
@@ -80,42 +39,43 @@ async function main() {
     matchday: number;
   }[] = [];
 
-  // We will build schedules for both groups simultaneously round-by-round
   groups.forEach((groupName) => {
     const groupId = groupIds.get(groupName)!;
-    const groupTeams = teamRows
+    const t = teamRows
       .filter((team) => team.group_id === groupId)
       .sort((a, b) => a.display_order - b.display_order);
 
-    const numTeams = groupTeams.length;
-    // 5 teams means we use a placeholder `null` for the resting team (BYE)
-    const list = [...groupTeams, null]; 
-    const totalRounds = numTeams; // 5 rounds total
+    // Optimized 5-team schedule: No team plays in consecutive matchdays
+    const schedule = [
+      { day: 1, m1: [0, 1], m2: [2, 3] }, // 4 rests
+      { day: 2, m1: [4, 0], m2: [1, 2] }, // 3 rests
+      { day: 3, m1: [3, 4], m2: [0, 2] }, // 1 rests
+      { day: 4, m1: [1, 3], m2: [2, 4] }, // 0 rests
+      { day: 5, m1: [3, 0], m2: [4, 1] }, // 2 rests
+    ];
 
-    for (let round = 0; round < totalRounds; round++) {
-      // Matchday numbers will be 1, 2, 3, 4, 5
-      const matchdayNumber = round + 1; 
-
-      for (let i = 0; i < list.length / 2; i++) {
-        const home = list[i];
-        const away = list[list.length - 1 - i];
-
-        if (home !== null && away !== null) {
-          fixtures.push({
-            group_id: groupId,
-            home_team_id: home.id,
-            away_team_id: away.id,
-            matchday: matchdayNumber // Group A and Group B both play their Matchday X matches together
-          });
-        }
-      }
-      
-      // Rotate the circle for the next round (keep first item fixed)
-      const rest = list.slice(1);
-      const last = rest.pop()!;
-      list.splice(1, list.length - 1, last, ...rest);
-    }
+    schedule.forEach((s) => {
+      fixtures.push({
+        group_id: groupId,
+        home_team_id: t[s.m1[0]].id,
+        away_team_id: t[s.m1[1]].id,
+        matchday: s.day
+      });
+      fixtures.push({
+        group_id: groupId,
+        home_team_id: t[s.m2[0]].id,
+        away_team_id: t[s.m2[1]].id,
+        matchday: s.day
+      });
+    });
   });
+
+  // 3. UPSERT THE NEW FIXTURES
+  await failOnError(
+    await supabase.from("fixtures").upsert(fixtures, {
+      onConflict: "group_id,home_team_id,away_team_id"
+    })
+  );
 
   // --- SAVE TRULY CHRONOLOGICAL FIXTURES ---
   await failOnError(
