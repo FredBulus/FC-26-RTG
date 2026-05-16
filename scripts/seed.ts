@@ -67,6 +67,12 @@ async function main() {
   );
 
   // FIX: Round Robin Scheduler (Teams will not play consecutively)
+  // --- DELETE EXISTING FIXTURES FIRST TO ENSURE A CLEAN RESET ---
+  await failOnError(
+    await supabase.from("fixtures").delete().neq("id", "00000000-0000-0000-0000-000000000000")
+  );
+
+  // FIX: Truly Synchronized Round-Robin Scheduler
   const fixtures: {
     group_id: string;
     home_team_id: string;
@@ -74,8 +80,7 @@ async function main() {
     matchday: number;
   }[] = [];
 
-  let globalMatchday = 1;
-
+  // We will build schedules for both groups simultaneously round-by-round
   groups.forEach((groupName) => {
     const groupId = groupIds.get(groupName)!;
     const groupTeams = teamRows
@@ -83,11 +88,14 @@ async function main() {
       .sort((a, b) => a.display_order - b.display_order);
 
     const numTeams = groupTeams.length;
-    // 5 teams requires a dummy "null" (BYE) element to balance the scheduling circle
+    // 5 teams means we use a placeholder `null` for the resting team (BYE)
     const list = [...groupTeams, null]; 
-    const rounds = numTeams; 
+    const totalRounds = numTeams; // 5 rounds total
 
-    for (let round = 0; round < rounds; round++) {
+    for (let round = 0; round < totalRounds; round++) {
+      // Matchday numbers will be 1, 2, 3, 4, 5
+      const matchdayNumber = round + 1; 
+
       for (let i = 0; i < list.length / 2; i++) {
         const home = list[i];
         const away = list[list.length - 1 - i];
@@ -97,17 +105,24 @@ async function main() {
             group_id: groupId,
             home_team_id: home.id,
             away_team_id: away.id,
-            matchday: globalMatchday++ 
+            matchday: matchdayNumber // Group A and Group B both play their Matchday X matches together
           });
         }
       }
       
-      // Pivot array configuration for the next round
+      // Rotate the circle for the next round (keep first item fixed)
       const rest = list.slice(1);
       const last = rest.pop()!;
       list.splice(1, list.length - 1, last, ...rest);
     }
   });
+
+  // --- SAVE TRULY CHRONOLOGICAL FIXTURES ---
+  await failOnError(
+    await supabase.from("fixtures").upsert(fixtures, {
+      onConflict: "group_id,home_team_id,away_team_id"
+    })
+  );
 
   await failOnError(
     await supabase.from("fixtures").upsert(fixtures, {
