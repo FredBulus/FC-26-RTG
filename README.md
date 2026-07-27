@@ -1,4 +1,4 @@
-# Legacy Tournament 2026
+# FC 26 Tournament (Road to Glory)
 
 Modern view-only football tournament site with a Supabase-backed admin dashboard.
 

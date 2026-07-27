@@ -4,6 +4,7 @@ import { Bracket } from "@/components/bracket";
 import { MatchCard } from "@/components/match-card";
 import { PageTitle } from "@/components/page-title";
 import { StandingsTable } from "@/components/standings-table";
+import { tournamentName } from "@/lib/constants";
 import { getFixtures, getKnockoutMatches, getStandings } from "@/lib/data";
 
 export const revalidate = 0;
@@ -17,14 +18,18 @@ export default async function HomePage() {
   const upcoming = fixtures
     .filter((match) => match.status !== "finished")
     .slice(0, 4);
-  const groupA = standings.filter((row) => row.groups?.name === "Group A").slice(0, 5);
-  const groupB = standings.filter((row) => row.groups?.name === "Group B").slice(0, 5);
+  const standingsByGroup = standings.reduce<Record<string, typeof standings>>((groups, row) => {
+    const groupName = row.groups?.name ?? "Ungrouped";
+    groups[groupName] = groups[groupName] ?? [];
+    groups[groupName].push(row);
+    return groups;
+  }, {});
 
   return (
     <div className="space-y-10">
       <section className="grid gap-8 py-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div>
-          <PageTitle eyebrow="Tournament HQ" title="Legacy Tournament 2026">
+          <PageTitle eyebrow="Tournament HQ" title={tournamentName}>
             Follow every fixture, table movement, result, and knockout step from a single
             read-only public experience.
           </PageTitle>
@@ -61,8 +66,9 @@ export default async function HomePage() {
       </section>
 
       <section className="grid gap-5 lg:grid-cols-2">
-        <StandingsTable title="Group A" rows={groupA} />
-        <StandingsTable title="Group B" rows={groupB} />
+        {Object.entries(standingsByGroup).map(([groupName, rows]) => (
+          <StandingsTable key={groupName} title={groupName} rows={rows.slice(0, 5)} />
+        ))}
       </section>
 
       <section>

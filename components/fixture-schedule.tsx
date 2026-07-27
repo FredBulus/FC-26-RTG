@@ -25,7 +25,7 @@ function dateLabel(key: string) {
 }
 
 function stageName(match: Fixture | KnockoutMatch) {
-  return "round" in match ? "Knockout Stage" : match.groups?.name ?? "Group Stage";
+  return "round" in match ? match.round : match.groups?.name ?? "Group Stage";
 }
 
 export function FixtureSchedule({

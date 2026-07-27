@@ -1,4 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
+import { loadEnvConfig } from "@next/env";
+
+loadEnvConfig(process.cwd());
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -22,90 +25,96 @@ async function check(promise: any) {
 }
 
 async function main() {
-  console.log("🚀 Starting clean seed...");
+  console.log("Starting FC 26 Tournament (Road to Glory) seed...");
 
-  // 1. Groups
-  await check(supabase.from("groups").upsert([{ name: "Group A" }, { name: "Group B" }], { onConflict: "name" }));
+  const groups = [
+    {
+      name: "Group A",
+      teams: ["Onli-1-ik", "Lastbreed77", "Freddreek", "Mr-blaze24-", "Ibelieverr"]
+    },
+    {
+      name: "Group B",
+      teams: ["ethanol_c", "lmw2288", "Quivcy", "Sixdigits_man"]
+    },
+    {
+      name: "Group C",
+      teams: ["Kinginthe_west", "Demreal", "Lordswiss", "ireayo_1"]
+    },
+    {
+      name: "Group D",
+      teams: ["Blvck_sparrow60", "Deelo_official", "Sanematic", "Blavk_dots13"]
+    }
+  ];
+
+  // 1. Clean previous tournament data, keeping admins/auth intact.
+  await check(supabase.from("knockout_matches").delete().neq("label", "__never__"));
+  await check(supabase.from("groups").delete().neq("name", "__never__"));
+
+  // 2. Groups
+  await check(
+    supabase
+      .from("groups")
+      .insert(groups.map((group) => ({ name: group.name })))
+  );
   const groupRows = await check(supabase.from("groups").select("id,name"));
   const groupIds = new Map(groupRows.map((g: any) => [g.name, g.id]));
 
-  // 2. Teams
-  const teamSource = [
-    { name: "CLC", group_name: "Group A", display_order: 1 },
-    { name: "Hope Chapel", group_name: "Group A", display_order: 2 },
-    { name: "KICC", group_name: "Group A", display_order: 3 },
-    { name: "Carmel City Church", group_name: "Group A", display_order: 4 },
-    { name: "BOLM FC", group_name: "Group A", display_order: 5 },
-    { name: "RCCG Glory of God", group_name: "Group B", display_order: 1 },
-    { name: "GHIC Yeovil", group_name: "Group B", display_order: 2 },
-    { name: "GHIC Bristol", group_name: "Group B", display_order: 3 },
-    { name: "Dayspring", group_name: "Group B", display_order: 4 },
-    { name: "Church of Pentecost", group_name: "Group B", display_order: 5 },
-  ];
+  // 3. Teams
+  const teamData = groups.flatMap((group) => group.teams.map((teamName, index) => ({
+    name: teamName,
+    group_id: groupIds.get(group.name),
+    display_order: index + 1
+  })));
 
-  const teamData = teamSource.map(t => ({
-    name: t.name,
-    group_id: groupIds.get(t.group_name),
-    display_order: t.display_order
-  }));
+  await check(supabase.from("teams").insert(teamData));
+  const teamRows = await check(supabase.from("teams").select("id, name, group_id, display_order"));
 
-  await check(supabase.from("teams").upsert(teamData, { onConflict: "name" }));
-  const teamRows = await check(supabase.from("teams").select("id, name, group_id"));
-  const t = new Map(teamRows.map((team: any) => [team.name, team.id]));
-
-  // 3. Standings
+  // 4. Standings
   const standingsData = teamRows.map((team: any) => ({
     team_id: team.id,
-    group_id: team.group_id 
+    group_id: team.group_id
   }));
-  await check(supabase.from("standings").upsert(standingsData, { onConflict: "team_id" }));
+  await check(supabase.from("standings").insert(standingsData));
 
-  // 4. NUCLEAR RESET
-  console.log("🧹 Wiping fixtures...");
-  await check(supabase.from("fixtures").delete().neq("matchday", -1));
+  const t = new Map(teamRows.map((team: any) => [team.name, team.id]));
 
-  // 5. FIXTURES (Exactly 20)
-  const fixturesData = [
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("CLC"), away_team_id: t.get("Hope Chapel"), matchday: 1 },
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("KICC"), away_team_id: t.get("Carmel City Church"), matchday: 1 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("RCCG Glory of God"), away_team_id: t.get("GHIC Yeovil"), matchday: 1 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Bristol"), away_team_id: t.get("Dayspring"), matchday: 1 },
+  // 5. Fixtures: single round-robin within each group.
+  const fixturesData = groups.flatMap((group) => {
+    const groupId = groupIds.get(group.name);
+    const fixtures = [];
 
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("BOLM FC"), away_team_id: t.get("CLC"), matchday: 2 },
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("Hope Chapel"), away_team_id: t.get("KICC"), matchday: 2 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("Church of Pentecost"), away_team_id: t.get("RCCG Glory of God"), matchday: 2 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Yeovil"), away_team_id: t.get("GHIC Bristol"), matchday: 2 },
+    for (let homeIndex = 0; homeIndex < group.teams.length; homeIndex += 1) {
+      for (let awayIndex = homeIndex + 1; awayIndex < group.teams.length; awayIndex += 1) {
+        fixtures.push({
+          group_id: groupId,
+          home_team_id: t.get(group.teams[homeIndex]),
+          away_team_id: t.get(group.teams[awayIndex]),
+          matchday: fixtures.length + 1
+        });
+      }
+    }
 
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("Carmel City Church"), away_team_id: t.get("BOLM FC"), matchday: 3 },
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("CLC"), away_team_id: t.get("KICC"), matchday: 3 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("Dayspring"), away_team_id: t.get("Church of Pentecost"), matchday: 3 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("RCCG Glory of God"), away_team_id: t.get("GHIC Bristol"), matchday: 3 },
-
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("Hope Chapel"), away_team_id: t.get("Carmel City Church"), matchday: 4 },
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("KICC"), away_team_id: t.get("BOLM FC"), matchday: 4 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Yeovil"), away_team_id: t.get("Dayspring"), matchday: 4 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("GHIC Bristol"), away_team_id: t.get("Church of Pentecost"), matchday: 4 },
-
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("Carmel City Church"), away_team_id: t.get("CLC"), matchday: 5 },
-    { group_id: groupIds.get("Group A"), home_team_id: t.get("BOLM FC"), away_team_id: t.get("Hope Chapel"), matchday: 5 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("Dayspring"), away_team_id: t.get("RCCG Glory of God"), matchday: 5 },
-    { group_id: groupIds.get("Group B"), home_team_id: t.get("Church of Pentecost"), away_team_id: t.get("GHIC Yeovil"), matchday: 5 },
-  ];
+    return fixtures;
+  });
 
   await check(supabase.from("fixtures").insert(fixturesData));
-  console.log("✅ 20 Fixtures inserted.");
+  console.log(`${fixturesData.length} group fixtures inserted.`);
 
   // 6. Knockouts
-  await check(supabase.from("knockout_matches").upsert([
-    { round: "Semi Final", label: "SF1", sort_order: 1, home_seed: "1st Group A", away_seed: "2nd Group B" },
-    { round: "Semi Final", label: "SF2", sort_order: 2, home_seed: "1st Group B", away_seed: "2nd Group A" },
-    { round: "Final", label: "Final", sort_order: 3, home_seed: "Winner SF1", away_seed: "Winner SF2" }
-  ], { onConflict: "label" }));
+  await check(supabase.from("knockout_matches").insert([
+    { round: "Quarter Final", label: "QF1", sort_order: 1, home_seed: "1st Group A", away_seed: "2nd Group B" },
+    { round: "Quarter Final", label: "QF2", sort_order: 2, home_seed: "1st Group B", away_seed: "2nd Group A" },
+    { round: "Quarter Final", label: "QF3", sort_order: 3, home_seed: "1st Group C", away_seed: "2nd Group D" },
+    { round: "Quarter Final", label: "QF4", sort_order: 4, home_seed: "1st Group D", away_seed: "2nd Group C" },
+    { round: "Semi Final", label: "SF1", sort_order: 5, home_seed: "Winner QF1", away_seed: "Winner QF3" },
+    { round: "Semi Final", label: "SF2", sort_order: 6, home_seed: "Winner QF2", away_seed: "Winner QF4" },
+    { round: "Final", label: "Final", sort_order: 7, home_seed: "Winner SF1", away_seed: "Winner SF2" }
+  ]));
 
   await check(supabase.rpc("recalculate_standings"));
   await check(supabase.rpc("refresh_knockout_seeds"));
 
-  console.log("🎉 Seeding complete!");
+  console.log("Seeding complete.");
 }
 
 main().catch((err) => {

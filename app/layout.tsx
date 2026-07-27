@@ -5,7 +5,7 @@ import { tournamentName } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: tournamentName,
-  description: "Fixtures, standings, results, and knockout bracket for Legacy Tournament 2026."
+  description: `Fixtures, standings, results, and knockout bracket for ${tournamentName}.`
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

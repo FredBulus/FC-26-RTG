@@ -6,8 +6,12 @@ export const revalidate = 0;
 
 export default async function StandingsPage() {
   const standings = await getStandings();
-  const groupA = standings.filter((row) => row.groups?.name === "Group A");
-  const groupB = standings.filter((row) => row.groups?.name === "Group B");
+  const standingsByGroup = standings.reduce<Record<string, typeof standings>>((groups, row) => {
+    const groupName = row.groups?.name ?? "Ungrouped";
+    groups[groupName] = groups[groupName] ?? [];
+    groups[groupName].push(row);
+    return groups;
+  }, {});
 
   return (
     <div>
@@ -16,8 +20,9 @@ export default async function StandingsPage() {
         match scores are marked finished.
       </PageTitle>
       <div className="grid gap-6 lg:grid-cols-2">
-        <StandingsTable title="Group A" rows={groupA} />
-        <StandingsTable title="Group B" rows={groupB} />
+        {Object.entries(standingsByGroup).map(([groupName, rows]) => (
+          <StandingsTable key={groupName} title={groupName} rows={rows} />
+        ))}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 export type Group = {
   id: string;
-  name: "Group A" | "Group B";
+  name: string;
 };
 
 export type Team = {
@@ -44,8 +44,8 @@ export type Standing = {
 
 export type KnockoutMatch = {
   id: string;
-  round: "Semi Final" | "Final";
-  label: "SF1" | "SF2" | "Final";
+  round: string;
+  label: string;
   sort_order: number;
   home_seed: string | null;
   away_seed: string | null;

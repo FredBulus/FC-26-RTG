@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { Fixture, KnockoutMatch, Standing, Team } from "@/lib/types";
+import type { Fixture, Group, KnockoutMatch, Standing, Team } from "@/lib/types";
 
 export async function getTeams() {
   const supabase = createClient();
@@ -10,6 +10,17 @@ export async function getTeams() {
 
   if (error) throw error;
   return data as (Team & { groups: { id: string; name: string } })[];
+}
+
+export async function getGroups() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("groups")
+    .select("*")
+    .order("name");
+
+  if (error) throw error;
+  return data as Group[];
 }
 
 export async function getFixtures() {

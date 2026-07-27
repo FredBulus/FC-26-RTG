@@ -2,7 +2,7 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.groups (
   id uuid primary key default gen_random_uuid(),
-  name text not null unique check (name in ('Group A', 'Group B')),
+  name text not null unique,
   created_at timestamptz not null default now()
 );
 
@@ -52,7 +52,7 @@ create table if not exists public.standings (
 
 create table if not exists public.knockout_matches (
   id uuid primary key default gen_random_uuid(),
-  round text not null check (round in ('Semi Final', 'Final')),
+  round text not null check (round in ('Quarter Final', 'Semi Final', 'Final')),
   label text not null unique,
   sort_order integer not null,
   home_seed text,
@@ -182,6 +182,14 @@ declare
   ga2 uuid;
   gb1 uuid;
   gb2 uuid;
+  gc1 uuid;
+  gc2 uuid;
+  gd1 uuid;
+  gd2 uuid;
+  qf1_winner uuid;
+  qf2_winner uuid;
+  qf3_winner uuid;
+  qf4_winner uuid;
   sf1_winner uuid;
   sf2_winner uuid;
 begin
@@ -209,12 +217,57 @@ begin
   order by s.points desc, s.goal_difference desc, s.goals_for desc, s.wins desc, s.updated_at asc
   limit 1 offset 1;
 
+  select s.team_id into gc1
+  from public.standings s join public.groups g on g.id = s.group_id
+  where g.name = 'Group C'
+  order by s.points desc, s.goal_difference desc, s.goals_for desc, s.wins desc, s.updated_at asc
+  limit 1 offset 0;
+
+  select s.team_id into gc2
+  from public.standings s join public.groups g on g.id = s.group_id
+  where g.name = 'Group C'
+  order by s.points desc, s.goal_difference desc, s.goals_for desc, s.wins desc, s.updated_at asc
+  limit 1 offset 1;
+
+  select s.team_id into gd1
+  from public.standings s join public.groups g on g.id = s.group_id
+  where g.name = 'Group D'
+  order by s.points desc, s.goal_difference desc, s.goals_for desc, s.wins desc, s.updated_at asc
+  limit 1 offset 0;
+
+  select s.team_id into gd2
+  from public.standings s join public.groups g on g.id = s.group_id
+  where g.name = 'Group D'
+  order by s.points desc, s.goal_difference desc, s.goals_for desc, s.wins desc, s.updated_at asc
+  limit 1 offset 1;
+
   update public.knockout_matches
   set home_team_id = ga1, away_team_id = gb2
-  where label = 'SF1' and status <> 'finished';
+  where label = 'QF1' and status <> 'finished';
 
   update public.knockout_matches
   set home_team_id = gb1, away_team_id = ga2
+  where label = 'QF2' and status <> 'finished';
+
+  update public.knockout_matches
+  set home_team_id = gc1, away_team_id = gd2
+  where label = 'QF3' and status <> 'finished';
+
+  update public.knockout_matches
+  set home_team_id = gd1, away_team_id = gc2
+  where label = 'QF4' and status <> 'finished';
+
+  select winner_team_id into qf1_winner from public.knockout_matches where label = 'QF1';
+  select winner_team_id into qf2_winner from public.knockout_matches where label = 'QF2';
+  select winner_team_id into qf3_winner from public.knockout_matches where label = 'QF3';
+  select winner_team_id into qf4_winner from public.knockout_matches where label = 'QF4';
+
+  update public.knockout_matches
+  set home_team_id = qf1_winner, away_team_id = qf3_winner
+  where label = 'SF1' and status <> 'finished';
+
+  update public.knockout_matches
+  set home_team_id = qf2_winner, away_team_id = qf4_winner
   where label = 'SF2' and status <> 'finished';
 
   select winner_team_id into sf1_winner from public.knockout_matches where label = 'SF1';
@@ -307,43 +360,15 @@ create policy "Admins can manage standings" on public.standings for all using (p
 create policy "Admins can manage knockout" on public.knockout_matches for all using (public.is_admin()) with check (public.is_admin());
 create policy "Admins can read admins" on public.admins for select using (public.is_admin());
 
-insert into public.groups (name)
-values ('Group A'), ('Group B')
-on conflict (name) do nothing;
-
-insert into public.teams (name, group_id, display_order)
-select team_name, g.id, display_order
-from (
-  values
-    ('CLC', 'Group A', 1),
-    ('Hope Chapel', 'Group A', 2),
-    ('KICC', 'Group A', 3),
-    ('Carmel City Church', 'Group A', 4),
-    ('BOLM FC', 'Group A', 5),
-    ('RCCG Glory of God', 'Group B', 1),
-    ('GHIC Yeovil', 'Group B', 2),
-    ('GHIC Bristol', 'Group B', 3),
-    ('Dayspring', 'Group B', 4),
-    ('Church of Pentecost', 'Group B', 5)
-) as seed(team_name, group_name, display_order)
-join public.groups g on g.name = seed.group_name
-on conflict (name) do update set group_id = excluded.group_id, display_order = excluded.display_order;
-
-insert into public.standings (team_id, group_id)
-select id, group_id from public.teams
-on conflict (team_id) do nothing;
-
-insert into public.fixtures (group_id, home_team_id, away_team_id, matchday)
-select t1.group_id, t1.id, t2.id, row_number() over (partition by t1.group_id order by t1.display_order, t2.display_order)
-from public.teams t1
-join public.teams t2 on t2.group_id = t1.group_id and t1.display_order < t2.display_order
-on conflict do nothing;
-
 insert into public.knockout_matches (round, label, sort_order, home_seed, away_seed)
 values
-  ('Semi Final', 'SF1', 1, '1st Group A', '2nd Group B'),
-  ('Semi Final', 'SF2', 2, '1st Group B', '2nd Group A'),
-  ('Final', 'Final', 3, 'Winner SF1', 'Winner SF2')
+  ('Quarter Final', 'QF1', 1, '1st Group A', '2nd Group B'),
+  ('Quarter Final', 'QF2', 2, '1st Group B', '2nd Group A'),
+  ('Quarter Final', 'QF3', 3, '1st Group C', '2nd Group D'),
+  ('Quarter Final', 'QF4', 4, '1st Group D', '2nd Group C'),
+  ('Semi Final', 'SF1', 5, 'Winner QF1', 'Winner QF3'),
+  ('Semi Final', 'SF2', 6, 'Winner QF2', 'Winner QF4'),
+  ('Final', 'Final', 7, 'Winner SF1', 'Winner SF2')
 on conflict (label) do nothing;
 
 select public.recalculate_standings();

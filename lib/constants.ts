@@ -1,4 +1,4 @@
-export const tournamentName = "Legacy Tournament 2026";
+export const tournamentName = "FC 26 Tournament (Road to Glory)";
 
 export const navItems = [
   { href: "/", label: "Home" },

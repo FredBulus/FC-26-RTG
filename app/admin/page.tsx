@@ -28,8 +28,12 @@ export default async function AdminPage() {
   const [fixtures, knockout] = await Promise.all([getFixtures(), getKnockoutMatches()]);
   const finishedFixtures = fixtures.filter((match) => match.status === "finished").length;
   const openFixtures = fixtures.filter((match) => match.status !== "finished").length;
-  const groupA = fixtures.filter((match) => match.groups?.name === "Group A");
-  const groupB = fixtures.filter((match) => match.groups?.name === "Group B");
+  const fixturesByGroup = fixtures.reduce<Record<string, typeof fixtures>>((groups, match) => {
+    const groupName = match.groups?.name ?? "Ungrouped";
+    groups[groupName] = groups[groupName] ?? [];
+    groups[groupName].push(match);
+    return groups;
+  }, {});
 
   return (
     <div className="space-y-8">
@@ -83,27 +87,18 @@ export default async function AdminPage() {
       </section>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <section>
-          <div className="mb-3 rounded-md bg-ink px-4 py-3 text-white">
-            <h2 className="text-xl font-black">Group A</h2>
-          </div>
-          <div className="space-y-4">
-            {groupA.map((match) => (
-              <AdminMatchForm key={match.id} type="fixture" match={match} />
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <div className="mb-3 rounded-md bg-ink px-4 py-3 text-white">
-            <h2 className="text-xl font-black">Group B</h2>
-          </div>
-          <div className="space-y-4">
-            {groupB.map((match) => (
-              <AdminMatchForm key={match.id} type="fixture" match={match} />
-            ))}
-          </div>
-        </section>
+        {Object.entries(fixturesByGroup).map(([groupName, groupFixtures]) => (
+          <section key={groupName}>
+            <div className="mb-3 rounded-md bg-ink px-4 py-3 text-white">
+              <h2 className="text-xl font-black">{groupName}</h2>
+            </div>
+            <div className="space-y-4">
+              {groupFixtures.map((match) => (
+                <AdminMatchForm key={match.id} type="fixture" match={match} />
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
 
       <section>
