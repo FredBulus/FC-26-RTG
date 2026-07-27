@@ -9,9 +9,8 @@ export default async function FixturesPage() {
 
   return (
     <div>
-      <PageTitle eyebrow="Schedule" title="Fixtures">
-        Browse every group and knockout fixture by date. Kickoff times and venues update
-        from the admin dashboard.
+      <PageTitle eyebrow="Fixtures" title="Match List">
+        Browse every group and knockout fixture in the tournament.
       </PageTitle>
       <FixtureSchedule fixtures={fixtures} knockoutMatches={knockoutMatches} />
     </div>

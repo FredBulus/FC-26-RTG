@@ -1,4 +1,3 @@
-import { CalendarDays, Clock, MapPin } from "lucide-react";
 import type { Fixture, KnockoutMatch } from "@/lib/types";
 
 type MatchLike = Fixture | KnockoutMatch;
@@ -44,22 +43,6 @@ export function MatchCard({ match }: { match: MatchLike }) {
         <p className="min-w-0 break-words text-sm font-black leading-tight text-ink sm:text-lg">
           {teamName(match.away_team, awaySeed)}
         </p>
-      </div>
-      <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold text-ink/58">
-        <span className="inline-flex items-center gap-1.5">
-          <CalendarDays size={15} />
-          {match.match_date ?? "Date TBC"}
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <Clock size={15} />
-          {match.kickoff_time?.slice(0, 5) ?? "Time TBC"}
-        </span>
-        {match.venue ? (
-          <span className="inline-flex items-center gap-1.5">
-            <MapPin size={15} />
-            {match.venue}
-          </span>
-        ) : null}
       </div>
       </div>
     </article>

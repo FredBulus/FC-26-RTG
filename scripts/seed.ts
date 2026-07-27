@@ -78,7 +78,7 @@ async function main() {
 
   const t = new Map(teamRows.map((team: any) => [team.name, team.id]));
 
-  // 5. Fixtures: single round-robin within each group.
+  // 5. Fixtures: home-and-away round-robin within each group.
   const fixturesData = groups.flatMap((group) => {
     const groupId = groupIds.get(group.name);
     const fixtures = [];
@@ -89,6 +89,12 @@ async function main() {
           group_id: groupId,
           home_team_id: t.get(group.teams[homeIndex]),
           away_team_id: t.get(group.teams[awayIndex]),
+          matchday: fixtures.length + 1
+        });
+        fixtures.push({
+          group_id: groupId,
+          home_team_id: t.get(group.teams[awayIndex]),
+          away_team_id: t.get(group.teams[homeIndex]),
           matchday: fixtures.length + 1
         });
       }

@@ -37,34 +37,7 @@ export function AdminMatchForm({ type, match }: Props) {
         </button>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
-        <label className="lg:col-span-1">
-          <span className="mb-1 block text-xs font-black uppercase text-ink/55">Date</span>
-          <input
-            name="match_date"
-            type="date"
-            defaultValue={match.match_date ?? ""}
-            className="w-full rounded border border-line bg-pitch px-3 py-2 text-sm text-ink"
-          />
-        </label>
-        <label className="lg:col-span-1">
-          <span className="mb-1 block text-xs font-black uppercase text-ink/55">Kickoff</span>
-          <input
-            name="kickoff_time"
-            type="time"
-            defaultValue={match.kickoff_time?.slice(0, 5) ?? ""}
-            className="w-full rounded border border-line bg-pitch px-3 py-2 text-sm text-ink"
-          />
-        </label>
-        <label className="sm:col-span-2 xl:col-span-2">
-          <span className="mb-1 block text-xs font-black uppercase text-ink/55">Venue</span>
-          <input
-            name="venue"
-            defaultValue={match.venue ?? ""}
-            placeholder="Optional"
-            className="w-full rounded border border-line bg-pitch px-3 py-2 text-sm text-ink"
-          />
-        </label>
+      <div className="grid gap-3 sm:grid-cols-3">
         <label>
           <span className="mb-1 block text-xs font-black uppercase text-ink/55">Home</span>
           <input
@@ -85,19 +58,19 @@ export function AdminMatchForm({ type, match }: Props) {
             className="w-full rounded border border-line bg-pitch px-3 py-2 text-sm text-ink"
           />
         </label>
+        <label>
+          <span className="mb-1 block text-xs font-black uppercase text-ink/55">Status</span>
+          <select
+            name="status"
+            defaultValue={match.status}
+            className="w-full rounded border border-line bg-pitch px-3 py-2 text-sm text-ink"
+          >
+            <option value="scheduled">Scheduled</option>
+            <option value="live">Live</option>
+            <option value="finished">Finished</option>
+          </select>
+        </label>
       </div>
-      <label className="mt-3 block max-w-xs">
-        <span className="mb-1 block text-xs font-black uppercase text-ink/55">Status</span>
-        <select
-          name="status"
-          defaultValue={match.status}
-          className="w-full rounded border border-line bg-pitch px-3 py-2 text-sm text-ink"
-        >
-          <option value="scheduled">Scheduled</option>
-          <option value="live">Live</option>
-          <option value="finished">Finished</option>
-        </select>
-      </label>
       </div>
     </form>
   );
