@@ -63,9 +63,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-2">
+      <section className="grid gap-5">
         {Object.entries(standingsByGroup).map(([groupName, rows]) => (
-          <StandingsTable key={groupName} title={groupName} rows={rows.slice(0, 8)} />
+          <StandingsTable key={groupName} title={groupName} rows={rows} />
         ))}
       </section>
     </div>

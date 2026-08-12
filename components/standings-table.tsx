@@ -5,15 +5,22 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
     <section className="overflow-hidden rounded-md border border-line bg-white shadow-glow">
       <div className="flex flex-col gap-3 border-b border-line bg-ink px-4 py-3 text-white sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-black">{title}</h2>
-        <div className="flex flex-wrap gap-2 text-xs font-black uppercase tracking-[0.12em]">
-          <span className="rounded bg-gold px-2 py-1 text-white">Top 4 Prize</span>
-          <span className="rounded bg-cyan px-2 py-1 text-ink">Top 8 Qualify</span>
+        <div className="flex flex-wrap gap-3 text-xs font-bold text-white/80">
+          <span className="inline-flex items-center gap-2">
+            <span className="h-5 w-1.5 rounded-full bg-[#ff2882]" />
+            Pink label: Qualifies for prize money
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-5 w-1.5 rounded-full bg-[#04f5ff]" />
+            Blue label: Qualifies for Knockout Tournament
+          </span>
         </div>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[680px] border-separate border-spacing-0 text-left text-sm">
           <thead className="bg-pitch text-xs uppercase tracking-[0.16em] text-ink/55">
             <tr>
+              <th className="w-3 px-0 py-3" aria-label="Status" />
               <th className="px-4 py-3">Team</th>
               <th className="px-3 py-3 text-center">P</th>
               <th className="px-3 py-3 text-center">W</th>
@@ -33,28 +40,32 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
               const isPrizePlace = place <= 4;
               const isQualifier = place <= 8;
               const rowClass = isPrizePlace
-                ? "bg-[#fff4c2]"
+                ? "bg-[#fff2f8]"
                 : isQualifier
-                  ? "bg-[#dfffff]"
+                  ? "bg-[#e8feff]"
                   : undefined;
               const pointsBg = isPrizePlace
-                ? "bg-[#fff4c2]"
+                ? "bg-[#fff2f8]"
                 : isQualifier
-                  ? "bg-[#dfffff]"
+                  ? "bg-[#e8feff]"
                   : "bg-white";
+              const markerClass = isPrizePlace
+                ? "bg-[#ff2882]"
+                : isQualifier
+                  ? "bg-[#04f5ff]"
+                  : "bg-transparent";
 
               return (
               <tr key={row.team_id} className={rowClass}>
+                <td className="px-0 py-0">
+                  <span className={`block h-full min-h-14 w-1.5 rounded-r-full ${markerClass}`} />
+                </td>
                 <td className="px-4 py-3 font-bold">
                   <span className="mr-3 text-ink/45">{place}</span>
                   {row.teams?.name}
-                  {isPrizePlace ? (
-                    <span className="ml-3 rounded bg-gold px-2 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">
-                      Prize
-                    </span>
-                  ) : isQualifier ? (
-                    <span className="ml-3 rounded bg-cyan px-2 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-ink">
-                      Qualified
+                  {place === 1 ? (
+                    <span className="ml-3 rounded-full bg-[#ff2882] px-2 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">
+                      W
                     </span>
                   ) : null}
                 </td>
