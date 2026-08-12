@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { CalendarClock, CheckCircle2, ShieldCheck, Trophy } from "lucide-react";
+import { CalendarClock, CheckCircle2, ShieldCheck, Table2 } from "lucide-react";
 import { logout } from "@/app/admin/actions";
 import { AdminMatchForm } from "@/components/admin-match-form";
-import { getFixtures, getKnockoutMatches } from "@/lib/data";
+import { getFixtures } from "@/lib/data";
 import { createClient } from "@/lib/supabase/server";
 
 export const revalidate = 0;
@@ -25,7 +25,7 @@ export default async function AdminPage() {
     redirect("/admin/login?error=unauthorized");
   }
 
-  const [fixtures, knockout] = await Promise.all([getFixtures(), getKnockoutMatches()]);
+  const fixtures = await getFixtures();
   const finishedFixtures = fixtures.filter((match) => match.status === "finished").length;
   const openFixtures = fixtures.filter((match) => match.status !== "finished").length;
   const fixturesByGroup = fixtures.reduce<Record<string, typeof fixtures>>((groups, match) => {
@@ -45,8 +45,8 @@ export default async function AdminPage() {
             </p>
             <h1 className="text-3xl font-black sm:text-5xl">Tournament Control</h1>
             <p className="mt-3 max-w-3xl font-medium text-white/70">
-              Edit fixtures, kickoff times, venues, scores, and knockout matches. Public
-              users can only view the saved tournament state.
+              Edit league fixture scores and statuses. Public users can only view the
+              saved tournament state.
             </p>
           </div>
           <form action={logout}>
@@ -62,7 +62,7 @@ export default async function AdminPage() {
           <CalendarClock className="mb-3 text-gold" />
           <p className="text-3xl font-black text-ink">{fixtures.length}</p>
           <p className="text-sm font-black uppercase tracking-[0.14em] text-ink/55">
-            Group fixtures
+            League fixtures
           </p>
         </div>
         <div className="rounded-md border border-line bg-white p-4 shadow-glow">
@@ -78,10 +78,10 @@ export default async function AdminPage() {
           <p className="text-sm font-black uppercase tracking-[0.14em] text-ink/55">Open</p>
         </div>
         <div className="rounded-md border border-line bg-white p-4 shadow-glow">
-          <Trophy className="mb-3 text-gold" />
-          <p className="text-3xl font-black text-ink">{knockout.length}</p>
+          <Table2 className="mb-3 text-gold" />
+          <p className="text-3xl font-black text-ink">18</p>
           <p className="text-sm font-black uppercase tracking-[0.14em] text-ink/55">
-            Knockout
+            Teams
           </p>
         </div>
       </section>
@@ -94,23 +94,12 @@ export default async function AdminPage() {
             </div>
             <div className="space-y-4">
               {groupFixtures.map((match) => (
-                <AdminMatchForm key={match.id} type="fixture" match={match} />
+                <AdminMatchForm key={match.id} match={match} />
               ))}
             </div>
           </section>
         ))}
       </div>
-
-      <section>
-        <div className="mb-3 rounded-md bg-ink px-4 py-3 text-white">
-          <h2 className="text-xl font-black">Knockout Matches</h2>
-        </div>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {knockout.map((match) => (
-            <AdminMatchForm key={match.id} type="knockout" match={match} />
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

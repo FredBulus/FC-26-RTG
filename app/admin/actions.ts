@@ -78,27 +78,3 @@ export async function updateFixture(formData: FormData) {
   revalidatePath("/results");
   revalidatePath("/admin");
 }
-
-export async function updateKnockoutMatch(formData: FormData) {
-  const supabase = createClient();
-  const id = formData.get("id")?.toString();
-  if (!id) return;
-
-  const { error } = await supabase
-    .from("knockout_matches")
-    .update({
-      match_date: optionalString(formData.get("match_date")),
-      kickoff_time: optionalString(formData.get("kickoff_time")),
-      venue: optionalString(formData.get("venue")),
-      home_score: optionalNumber(formData.get("home_score")),
-      away_score: optionalNumber(formData.get("away_score")),
-      status: formData.get("status")?.toString() ?? "scheduled"
-    })
-    .eq("id", id);
-
-  if (error) throw error;
-  revalidatePath("/");
-  revalidatePath("/bracket");
-  revalidatePath("/results");
-  revalidatePath("/admin");
-}

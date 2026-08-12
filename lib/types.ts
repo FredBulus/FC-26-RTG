@@ -41,24 +41,3 @@ export type Standing = {
   teams?: Team | null;
   groups?: Group | null;
 };
-
-export type KnockoutMatch = {
-  id: string;
-  round: string;
-  label: string;
-  sort_order: number;
-  home_seed: string | null;
-  away_seed: string | null;
-  home_team_id: string | null;
-  away_team_id: string | null;
-  match_date: string | null;
-  kickoff_time: string | null;
-  venue: string | null;
-  home_score: number | null;
-  away_score: number | null;
-  winner_team_id: string | null;
-  status: "scheduled" | "live" | "finished";
-  home_team?: Team | null;
-  away_team?: Team | null;
-  winner_team?: Team | null;
-};

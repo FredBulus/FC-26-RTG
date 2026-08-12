@@ -1,4 +1,4 @@
-# FC 26 Tournament (Road to Glory)
+# FC 26 League
 
 Modern view-only football tournament site with a Supabase-backed admin dashboard.
 
@@ -24,7 +24,7 @@ Create an admin user and register them in the `admins` table with:
 npm run admin:create -- --email admin@example.com --password 'use-a-strong-password'
 ```
 
-Only authenticated users present in `admins` can write fixtures, scores, kickoff times, and knockout matches.
+Only authenticated users present in `admins` can write fixture scores and statuses.
 
 You can also do this manually in Supabase Auth, then insert the Auth user UUID into `admins`:
 

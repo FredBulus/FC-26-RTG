@@ -2,34 +2,30 @@
 
 import { useMemo } from "react";
 import { MatchCard } from "@/components/match-card";
-import type { Fixture, KnockoutMatch } from "@/lib/types";
+import type { Fixture } from "@/lib/types";
 
-type ScheduleMatch = (Fixture | KnockoutMatch) & {
+type ScheduleMatch = Fixture & {
   stageName: string;
 };
 
-function stageName(match: Fixture | KnockoutMatch) {
-  return "round" in match ? match.round : match.groups?.name ?? "Group Stage";
+function stageName(match: Fixture) {
+  return match.groups?.name ?? "League";
 }
 
 export function FixtureSchedule({
-  fixtures,
-  knockoutMatches
+  fixtures
 }: {
   fixtures: Fixture[];
-  knockoutMatches: KnockoutMatch[];
 }) {
   const matches = useMemo<ScheduleMatch[]>(
     () =>
-      [...fixtures, ...knockoutMatches]
+      fixtures
         .map((match) => ({ ...match, stageName: stageName(match) }))
         .sort((a, b) => {
           if (a.stageName !== b.stageName) return a.stageName.localeCompare(b.stageName);
-          if ("round" in a && "round" in b) return a.sort_order - b.sort_order;
-          if ("matchday" in a && "matchday" in b) return a.matchday - b.matchday;
-          return 0;
+          return a.matchday - b.matchday;
         }),
-    [fixtures, knockoutMatches]
+    [fixtures]
   );
 
   const groupedMatches = matches.reduce<Record<string, ScheduleMatch[]>>((acc, match) => {

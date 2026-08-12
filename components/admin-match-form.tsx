@@ -1,31 +1,26 @@
 import { Save } from "lucide-react";
-import { updateFixture, updateKnockoutMatch } from "@/app/admin/actions";
-import type { Fixture, KnockoutMatch } from "@/lib/types";
+import { updateFixture } from "@/app/admin/actions";
+import type { Fixture } from "@/lib/types";
 
-type Props =
-  | { type: "fixture"; match: Fixture }
-  | { type: "knockout"; match: KnockoutMatch };
+type Props = { match: Fixture };
 
-function teamName(team?: { name: string } | null, seed?: string | null) {
-  return team?.name ?? seed ?? "TBC";
+function teamName(team?: { name: string } | null) {
+  return team?.name ?? "TBC";
 }
 
-export function AdminMatchForm({ type, match }: Props) {
-  const action = type === "fixture" ? updateFixture : updateKnockoutMatch;
-  const knockout = type === "knockout" ? match : null;
-
+export function AdminMatchForm({ match }: Props) {
   return (
-    <form action={action} className="overflow-hidden rounded-md border border-line bg-white shadow-glow">
+    <form action={updateFixture} className="overflow-hidden rounded-md border border-line bg-white shadow-glow">
       <div className="h-1 bg-gradient-to-r from-turf via-cyan to-gold" />
       <div className="p-3 sm:p-4">
       <input type="hidden" name="id" value={match.id} />
       <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-start">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-gold">
-            {type === "fixture" ? match.groups?.name : match.round}
+            {match.groups?.name}
           </p>
           <h3 className="mt-1 text-base font-black leading-tight text-ink sm:text-lg">
-            {teamName(match.home_team, knockout?.home_seed)} vs {teamName(match.away_team, knockout?.away_seed)}
+            {teamName(match.home_team)} vs {teamName(match.away_team)}
           </h3>
         </div>
         <button

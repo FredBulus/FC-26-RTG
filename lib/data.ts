@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { Fixture, Group, KnockoutMatch, Standing, Team } from "@/lib/types";
+import type { Fixture, Group, Standing, Team } from "@/lib/types";
 
 export async function getTeams() {
   const supabase = createClient();
@@ -51,23 +51,9 @@ export async function getStandings() {
   return data as Standing[];
 }
 
-export async function getKnockoutMatches() {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("knockout_matches")
-    .select(
-      "*, home_team:teams!knockout_matches_home_team_id_fkey(*), away_team:teams!knockout_matches_away_team_id_fkey(*), winner_team:teams!knockout_matches_winner_team_id_fkey(*)"
-    )
-    .order("sort_order");
-
-  if (error) throw error;
-  return data as KnockoutMatch[];
-}
-
 export async function getResults() {
-  const [fixtures, knockout] = await Promise.all([getFixtures(), getKnockoutMatches()]);
+  const fixtures = await getFixtures();
   return {
     fixtures: fixtures.filter((match) => match.status === "finished"),
-    knockout: knockout.filter((match) => match.status === "finished")
   };
 }

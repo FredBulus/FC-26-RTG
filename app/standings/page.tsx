@@ -16,10 +16,10 @@ export default async function StandingsPage() {
   return (
     <div>
       <PageTitle eyebrow="Tables" title="Group Standings">
-        Points, wins, draws, losses, goals, and goal difference update automatically when
-        match scores are marked finished.
+        Points, wins, draws, losses, goals, and goal difference update automatically.
+        The top 4 win prizes and the top 8 qualify for the knockout tournament.
       </PageTitle>
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6">
         {Object.entries(standingsByGroup).map(([groupName, rows]) => (
           <StandingsTable key={groupName} title={groupName} rows={rows} />
         ))}
