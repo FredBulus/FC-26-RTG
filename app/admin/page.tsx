@@ -28,10 +28,10 @@ export default async function AdminPage() {
   const fixtures = await getFixtures();
   const finishedFixtures = fixtures.filter((match) => match.status === "finished").length;
   const openFixtures = fixtures.filter((match) => match.status !== "finished").length;
-  const fixturesByGroup = fixtures.reduce<Record<string, typeof fixtures>>((groups, match) => {
-    const groupName = match.groups?.name ?? "Ungrouped";
-    groups[groupName] = groups[groupName] ?? [];
-    groups[groupName].push(match);
+  const fixturesByWeek = fixtures.reduce<Record<string, typeof fixtures>>((groups, match) => {
+    const weekName = `Game Week ${match.matchday}`;
+    groups[weekName] = groups[weekName] ?? [];
+    groups[weekName].push(match);
     return groups;
   }, {});
 
@@ -87,13 +87,13 @@ export default async function AdminPage() {
       </section>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        {Object.entries(fixturesByGroup).map(([groupName, groupFixtures]) => (
-          <section key={groupName}>
+        {Object.entries(fixturesByWeek).map(([weekName, weekFixtures]) => (
+          <section key={weekName}>
             <div className="mb-3 rounded-md bg-ink px-4 py-3 text-white">
-              <h2 className="text-xl font-black">{groupName}</h2>
+              <h2 className="text-xl font-black">{weekName}</h2>
             </div>
             <div className="space-y-4">
-              {groupFixtures.map((match) => (
+              {weekFixtures.map((match) => (
                 <AdminMatchForm key={match.id} match={match} />
               ))}
             </div>

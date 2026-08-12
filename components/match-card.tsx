@@ -20,7 +20,7 @@ export function MatchCard({ match }: { match: Fixture }) {
             {match.groups?.name}
           </p>
           <h3 className="mt-1 text-sm font-black text-ink/70">
-            Matchday {match.matchday}
+            Game Week {match.matchday}
           </h3>
         </div>
         <span className="rounded bg-ink px-2 py-1 text-xs font-black uppercase text-white">

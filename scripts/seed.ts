@@ -77,27 +77,30 @@ async function main() {
   const t = new Map(teamRows.map((team: any) => [team.name, team.id]));
 
   // 5. Fixtures: every team plays every other team home and away.
-  const fixturesData = [];
+  const fixturePairs = [];
 
   for (let homeIndex = 0; homeIndex < teamNames.length; homeIndex += 1) {
     for (let awayIndex = homeIndex + 1; awayIndex < teamNames.length; awayIndex += 1) {
-      fixturesData.push({
+      fixturePairs.push({
         group_id: leagueId,
         home_team_id: t.get(teamNames[homeIndex]),
-        away_team_id: t.get(teamNames[awayIndex]),
-        matchday: fixturesData.length + 1
+        away_team_id: t.get(teamNames[awayIndex])
       });
-      fixturesData.push({
+      fixturePairs.push({
         group_id: leagueId,
         home_team_id: t.get(teamNames[awayIndex]),
-        away_team_id: t.get(teamNames[homeIndex]),
-        matchday: fixturesData.length + 1
+        away_team_id: t.get(teamNames[homeIndex])
       });
     }
   }
 
+  const fixturesData = fixturePairs.map((fixture, index) => ({
+    ...fixture,
+    matchday: Math.floor((index * 4) / fixturePairs.length) + 1
+  }));
+
   await check(supabase.from("fixtures").insert(fixturesData));
-  console.log(`${fixturesData.length} league fixtures inserted.`);
+  console.log(`${fixturesData.length} league fixtures inserted across 4 game weeks.`);
 
   await check(supabase.rpc("recalculate_standings"));
 

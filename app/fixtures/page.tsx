@@ -10,7 +10,7 @@ export default async function FixturesPage() {
   return (
     <div>
       <PageTitle eyebrow="Fixtures" title="Match List">
-        Browse every home-and-away league fixture in the tournament.
+        Browse every home-and-away league fixture across the four game weeks.
       </PageTitle>
       <FixtureSchedule fixtures={fixtures} />
     </div>

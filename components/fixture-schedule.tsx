@@ -5,11 +5,11 @@ import { MatchCard } from "@/components/match-card";
 import type { Fixture } from "@/lib/types";
 
 type ScheduleMatch = Fixture & {
-  stageName: string;
+  gameWeekName: string;
 };
 
-function stageName(match: Fixture) {
-  return match.groups?.name ?? "League";
+function gameWeekName(match: Fixture) {
+  return `Game Week ${match.matchday}`;
 }
 
 export function FixtureSchedule({
@@ -20,16 +20,15 @@ export function FixtureSchedule({
   const matches = useMemo<ScheduleMatch[]>(
     () =>
       fixtures
-        .map((match) => ({ ...match, stageName: stageName(match) }))
+        .map((match) => ({ ...match, gameWeekName: gameWeekName(match) }))
         .sort((a, b) => {
-          if (a.stageName !== b.stageName) return a.stageName.localeCompare(b.stageName);
           return a.matchday - b.matchday;
         }),
     [fixtures]
   );
 
   const groupedMatches = matches.reduce<Record<string, ScheduleMatch[]>>((acc, match) => {
-    const key = match.stageName;
+    const key = match.gameWeekName;
     acc[key] = acc[key] ?? [];
     acc[key].push(match);
     return acc;
