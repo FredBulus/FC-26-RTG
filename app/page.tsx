@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calendar, Medal, Table2 } from "lucide-react";
+import { BookOpenCheck, Calendar, Medal, Table2 } from "lucide-react";
 import { MatchCard } from "@/components/match-card";
 import { PageTitle } from "@/components/page-title";
 import { StandingsTable } from "@/components/standings-table";
@@ -31,7 +31,7 @@ export default async function HomePage() {
             Follow every league fixture, table movement, and result from a single
             read-only public experience. The top 4 win prizes and the top 8 qualify.
           </PageTitle>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <Link href="/fixtures" className="rounded-md border border-line bg-white p-4 shadow-glow transition hover:-translate-y-0.5 hover:border-cyan">
               <Calendar className="mb-4 text-gold" />
               <p className="font-black">Fixtures</p>
@@ -46,6 +46,11 @@ export default async function HomePage() {
               <Medal className="mb-4 text-gold" />
               <p className="font-black">Top 8</p>
               <p className="mt-1 text-sm font-semibold text-ink/60">Prize and qualifier places</p>
+            </Link>
+            <Link href="/rules" className="rounded-md border border-line bg-white p-4 shadow-glow transition hover:-translate-y-0.5 hover:border-cyan">
+              <BookOpenCheck className="mb-4 text-gold" />
+              <p className="font-black">Rules</p>
+              <p className="mt-1 text-sm font-semibold text-ink/60">League format and guidance</p>
             </Link>
           </div>
         </div>

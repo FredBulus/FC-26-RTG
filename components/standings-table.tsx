@@ -1,18 +1,20 @@
 import type { Standing } from "@/lib/types";
 
 export function StandingsTable({ title, rows }: { title: string; rows: Standing[] }) {
+  const displayTitle = title === "League" ? "League Standing" : title;
+
   return (
     <section className="overflow-hidden rounded-md border border-line bg-white shadow-glow">
       <div className="flex flex-col gap-3 border-b border-line bg-ink px-4 py-3 text-white sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-xl font-black">{title}</h2>
+        <h2 className="text-xl font-black">{displayTitle}</h2>
         <div className="flex flex-wrap gap-3 text-xs font-bold text-white/80">
           <span className="inline-flex items-center gap-2">
             <span className="h-5 w-1.5 rounded-full bg-[#ff2882]" />
-            Pink label: Qualifies for prize money
+            Qualifies for prize money
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="h-5 w-1.5 rounded-full bg-[#04f5ff]" />
-            Blue label: Qualifies for Knockout Tournament
+            Qualifies for Knockout Tournament
           </span>
         </div>
       </div>

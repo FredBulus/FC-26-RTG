@@ -28,6 +28,7 @@ async function main() {
   console.log("Starting FC 26 League seed...");
 
   const teamNames = [
+    "A1teey",
     "Deelo_official",
     "Fr3ddreek",
     "Sixdigits_man",
@@ -46,7 +47,7 @@ async function main() {
     "Sanematic",
     "Funzy",
     "Emeka"
-  ];
+  ].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
 
   // 1. Clean previous tournament data, keeping admins/auth intact.
   await check(supabase.from("knockout_matches").delete().neq("label", "__never__"));

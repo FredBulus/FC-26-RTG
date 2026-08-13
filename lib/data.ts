@@ -41,14 +41,22 @@ export async function getStandings() {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("standings")
-    .select("*, teams(*), groups(*)")
-    .order("points", { ascending: false })
-    .order("goal_difference", { ascending: false })
-    .order("goals_for", { ascending: false })
-    .order("wins", { ascending: false });
+    .select("*, teams(*), groups(*)");
 
   if (error) throw error;
-  return data as Standing[];
+  return (data as Standing[]).sort((a, b) => {
+    const standingsSort =
+      b.points - a.points ||
+      b.goal_difference - a.goal_difference ||
+      b.goals_for - a.goals_for ||
+      b.wins - a.wins;
+
+    if (standingsSort !== 0) return standingsSort;
+
+    return (a.teams?.name ?? "").localeCompare(b.teams?.name ?? "", undefined, {
+      sensitivity: "base"
+    });
+  });
 }
 
 export async function getResults() {
