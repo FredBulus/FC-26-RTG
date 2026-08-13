@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1800" viewBox="0 0 1200 1800" role="img" aria-labelledby="title desc">
+  <title id="title">FC 26 League Rules</title>
+  <desc id="desc">Shareable FC 26 League rules poster with season format, prize list, and match rules.</desc>
+  <defs>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M 42 0 L 0 0 0 42" fill="none" stroke="#370050" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#370050"/>
+      <stop offset="68%" stop-color="#260034"/>
+      <stop offset="100%" stop-color="#090014"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#260034" flood-opacity="0.22"/>
+    </filter>
+    <style>
+      .bg { fill: #f7f1fb; }
+      .ink { fill: #260034; }
+      .muted { fill: #745b7f; }
+      .white { fill: #ffffff; }
+      .pink { fill: #ff2882; }
+      .cyan { fill: #04f5ff; }
+      .gold { fill: #ffd44d; }
+      .card { fill: #ffffff; stroke: #e9dff0; stroke-width: 1.5; }
+      .title { font: 900 76px Arial, Helvetica, sans-serif; letter-spacing: -1px; }
+      .subtitle { font: 700 28px Arial, Helvetica, sans-serif; }
+      .eyebrow { font: 900 25px Arial, Helvetica, sans-serif; letter-spacing: 5px; }
+      .sectionTitle { font: 900 32px Arial, Helvetica, sans-serif; }
+      .body { font: 700 23px Arial, Helvetica, sans-serif; }
+      .small { font: 700 20px Arial, Helvetica, sans-serif; }
+      .amount { font: 900 31px Arial, Helvetica, sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="1800"/>
+  <rect width="1200" height="1800" fill="url(#grid)"/>
+  <circle cx="1000" cy="280" r="260" fill="#04f5ff" opacity="0.18"/>
+  <circle cx="170" cy="1500" r="320" fill="#ff2882" opacity="0.12"/>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="70" width="1060" height="260" rx="24" fill="url(#hero)"/>
+    <text x="115" y="135" class="eyebrow gold">FC 26 LEAGUE</text>
+    <text x="115" y="218" class="title white">Rules &amp; Prizes</text>
+    <text x="115" y="278" class="subtitle white">Season starts 15 August • Runs for 4 weeks • 19 players</text>
+    <rect x="895" y="112" width="172" height="56" rx="12" class="pink"/>
+    <text x="922" y="150" class="small white">TOP 4 💰</text>
+    <rect x="842" y="184" width="225" height="56" rx="12" class="cyan"/>
+    <text x="868" y="222" class="small ink">TOP 8 QUALIFY 🏆</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="370" width="1060" height="238" rx="20" class="card"/>
+    <text x="110" y="424" class="sectionTitle ink">💷 Prize List</text>
+    <text x="890" y="424" class="small muted">Registration: N5,000</text>
+
+    <g transform="translate(110 462)">
+      <rect width="188" height="96" rx="16" fill="#fff2f8"/>
+      <text x="22" y="38" class="small ink">Winner</text>
+      <text x="22" y="74" class="amount pink">N42,500</text>
+    </g>
+    <g transform="translate(314 462)">
+      <rect width="188" height="96" rx="16" fill="#f3feff"/>
+      <text x="22" y="38" class="small ink">2nd place</text>
+      <text x="22" y="74" class="amount ink">N20,000</text>
+    </g>
+    <g transform="translate(518 462)">
+      <rect width="188" height="96" rx="16" fill="#fff8dc"/>
+      <text x="22" y="38" class="small ink">3rd place</text>
+      <text x="22" y="74" class="amount ink">N15,000</text>
+    </g>
+    <g transform="translate(722 462)">
+      <rect width="188" height="96" rx="16" fill="#f3feff"/>
+      <text x="22" y="38" class="small ink">4th place</text>
+      <text x="22" y="74" class="amount ink">N10,000</text>
+    </g>
+    <g transform="translate(926 462)">
+      <rect width="164" height="96" rx="16" fill="#fff2f8"/>
+      <text x="22" y="38" class="small ink">MIP ⭐</text>
+      <text x="22" y="74" class="amount pink">N7,500</text>
+    </g>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="650" width="510" height="270" rx="20" class="card"/>
+    <rect x="70" y="650" width="10" height="270" rx="5" class="pink"/>
+    <text x="110" y="706" class="sectionTitle ink">📅 Season Format</text>
+    <text x="110" y="758" class="body ink">• One league table with 19 players.</text>
+    <text x="110" y="802" class="body ink">• Everyone plays home &amp; away.</text>
+    <text x="110" y="846" class="body ink">• Fixtures run across 4 game weeks.</text>
+    <text x="110" y="890" class="body ink">• Top 4 win prize money.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="650" width="510" height="270" rx="20" class="card"/>
+    <rect x="620" y="650" width="10" height="270" rx="5" class="cyan"/>
+    <text x="660" y="706" class="sectionTitle ink">🏆 Qualification</text>
+    <text x="660" y="758" class="body ink">• Top 8 qualify for the knockout</text>
+    <text x="682" y="796" class="body ink">tournament after the league.</text>
+    <text x="660" y="846" class="body ink">• MIP is strictly decided by vote.</text>
+    <text x="660" y="890" class="body ink">• Surprise impact matters. 👀</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="960" width="510" height="330" rx="20" class="card"/>
+    <rect x="70" y="960" width="10" height="330" rx="5" class="gold"/>
+    <text x="110" y="1016" class="sectionTitle ink">🎮 Match Rules</text>
+    <text x="110" y="1068" class="body ink">• Home player selects a team first.</text>
+    <text x="110" y="1112" class="body ink">• No machinery, please. 👀❌</text>
+    <text x="110" y="1156" class="body ink">• Quit during gameplay and you lose</text>
+    <text x="132" y="1194" class="body ink">that game 3-0.</text>
+    <text x="110" y="1240" class="body ink">• Hardwire your console if possible. 📶</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="960" width="510" height="330" rx="20" class="card"/>
+    <rect x="620" y="960" width="10" height="330" rx="5" class="pink"/>
+    <text x="660" y="1016" class="sectionTitle ink">📸 Results &amp; Streams</text>
+    <text x="660" y="1068" class="body ink">• Stream games where possible.</text>
+    <text x="660" y="1112" class="body ink">• Share Twitch or YouTube links. 🙏</text>
+    <text x="660" y="1156" class="body ink">• Send result screenshots.</text>
+    <text x="660" y="1200" class="body ink">• Show FIFA names where possible.</text>
+    <text x="660" y="1244" class="body ink">• Tag your opponent for reference.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="1330" width="510" height="330" rx="20" class="card"/>
+    <rect x="70" y="1330" width="10" height="330" rx="5" class="cyan"/>
+    <text x="110" y="1386" class="sectionTitle ink">🤝 Network Issues</text>
+    <text x="110" y="1438" class="body ink">• Both players must agree before</text>
+    <text x="132" y="1476" class="body ink">quitting and rescheduling.</text>
+    <text x="110" y="1522" class="body ink">• Contact your opponent first.</text>
+    <text x="110" y="1566" class="body ink">• Quitting without agreement may</text>
+    <text x="132" y="1604" class="body ink">mean forfeiting the game.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="1330" width="510" height="330" rx="20" class="card"/>
+    <rect x="620" y="1330" width="10" height="330" rx="5" class="gold"/>
+    <text x="660" y="1386" class="sectionTitle ink">🧑‍⚖️ Admin Reviews</text>
+    <text x="660" y="1438" class="body ink">• Play games as soon as you can.</text>
+    <text x="660" y="1482" class="body ink">• If stuck, contact Isah or Fred.</text>
+    <text x="660" y="1526" class="body ink">• Game weeks are reviewed weekly.</text>
+    <text x="660" y="1570" class="body ink">• Unplayed games may be rescheduled</text>
+    <text x="682" y="1608" class="body ink">or forfeited case by case.</text>
+  </g>
+
+  <text x="600" y="1724" text-anchor="middle" class="sectionTitle ink">Most importantly, let’s enjoy ourselves! 🎉</text>
+</svg>
