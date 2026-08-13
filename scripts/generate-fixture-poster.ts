@@ -33,9 +33,11 @@ function escapeXml(value: string) {
 }
 
 function fixtureLine(match: PosterFixture) {
-  const home = escapeXml(match.home_team?.name ?? "TBC");
-  const away = escapeXml(match.away_team?.name ?? "TBC");
-  return `${home} <tspan class="versus">v</tspan> ${away}`;
+  const [firstTeam, secondTeam] = [match.home_team?.name ?? "TBC", match.away_team?.name ?? "TBC"].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base" })
+  );
+
+  return `${escapeXml(firstTeam)} <tspan class="versus">v</tspan> ${escapeXml(secondTeam)}`;
 }
 
 function slugify(value: string) {
@@ -80,23 +82,24 @@ async function main() {
     const rowHeight = 46;
     const rows = groupFixtures.map((match, index) => {
       const y = rowStart + index * rowHeight;
-      const home = escapeXml(match.home_team?.name ?? "TBC");
-      const away = escapeXml(match.away_team?.name ?? "TBC");
+      const [firstTeam, secondTeam] = [match.home_team?.name ?? "TBC", match.away_team?.name ?? "TBC"].sort((a, b) =>
+        a.localeCompare(b, undefined, { sensitivity: "base" })
+      );
 
       return `
         <g filter="url(#rowShadow)">
           <rect x="80" y="${y - 30}" width="1040" height="40" rx="6" fill="${index % 2 === 0 ? "#ffffff" : "#fbf3ff"}"/>
           <text x="118" y="${y - 4}" class="rowNumber">${String(index + 1).padStart(2, "0")}</text>
-          <text x="184" y="${y - 4}" class="team home">${home}</text>
+          <text x="184" y="${y - 4}" class="team home">${escapeXml(firstTeam)}</text>
           <rect x="555" y="${y - 29}" width="90" height="38" rx="19" fill="#370050"/>
           <text x="600" y="${y - 3}" text-anchor="middle" class="vPill">v</text>
-          <text x="682" y="${y - 4}" class="team">${away}</text>
+          <text x="682" y="${y - 4}" class="team">${escapeXml(secondTeam)}</text>
         </g>`;
     }).join("");
 
     const groupSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc">
-  <title id="title">FC 26 Game Week ${gameWeek} ${escapeXml(groupName)} Fixtures</title>
-  <desc id="desc">Shareable FC 26 League Game Week ${gameWeek} fixtures for ${escapeXml(groupName)}.</desc>
+  <title id="title">FC 26 Game Week ${gameWeek} ${escapeXml(groupName)} Matches</title>
+  <desc id="desc">Shareable FC 26 League Game Week ${gameWeek} matchups for ${escapeXml(groupName)}.</desc>
   <defs>
     ${sharedDefs}
     <filter id="rowShadow" x="-5%" y="-30%" width="110%" height="170%">
@@ -124,7 +127,7 @@ async function main() {
     <text x="115" y="226" class="title">Game Week ${gameWeek}</text>
     <rect x="808" y="130" width="242" height="70" rx="18" fill="#04f5ff"/>
     <text x="929" y="174" text-anchor="middle" class="badge">${escapeXml(groupName)}</text>
-    <text x="115" y="278" class="subtitle">${groupFixtures.length} fixtures</text>
+    <text x="115" y="278" class="subtitle">${groupFixtures.length} matches</text>
   </g>
   <g>
     ${rows}
@@ -166,8 +169,8 @@ async function main() {
   }).join("");
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc">
-  <title id="title">FC 26 Game Week ${gameWeek} Fixtures</title>
-  <desc id="desc">Shareable FC 26 League Game Week ${gameWeek} fixture poster split by group.</desc>
+  <title id="title">FC 26 Game Week ${gameWeek} Matches</title>
+  <desc id="desc">Shareable FC 26 League Game Week ${gameWeek} matchup poster split by group.</desc>
   <defs>
     <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
       <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#370050" stroke-opacity="0.08" stroke-width="1"/>
@@ -197,7 +200,7 @@ async function main() {
   <g filter="url(#shadow)">
     <rect x="70" y="70" width="1460" height="250" rx="32" fill="url(#hero)"/>
     <text x="120" y="145" class="eyebrow">FC 26 LEAGUE</text>
-    <text x="120" y="238" class="title">Game Week ${gameWeek} Fixtures</text>
+    <text x="120" y="238" class="title">Game Week ${gameWeek} Matches</text>
     <text x="1130" y="177" class="subtitle">${fixtures.length} matches</text>
   </g>
   ${columns}

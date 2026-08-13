@@ -113,31 +113,50 @@ async function main() {
 
   const t = new Map(teamRows.map((team: any) => [team.name, team.id]));
 
-  // 5. Fixtures: each group plays home and away across the same three game weeks.
-  const fixturesByGroup = groups.map((group) => {
+  // 5. Fixtures: 18 round-robin rounds per group, 6 rounds per game week.
+  function buildGroupFixtures(group: { name: string; teams: string[] }) {
     const groupId = groupIds.get(group.name);
-    const pairs = [];
+    const fixedTeam = group.teams[0];
+    let rotatingTeams = group.teams.slice(1);
+    const firstHalfRounds = [];
 
-    for (let homeIndex = 0; homeIndex < group.teams.length; homeIndex += 1) {
-      for (let awayIndex = homeIndex + 1; awayIndex < group.teams.length; awayIndex += 1) {
-        pairs.push({
+    for (let roundIndex = 0; roundIndex < group.teams.length - 1; roundIndex += 1) {
+      const roundTeams = [fixedTeam, ...rotatingTeams];
+      const matches = [];
+
+      for (let matchIndex = 0; matchIndex < roundTeams.length / 2; matchIndex += 1) {
+        const firstTeam = roundTeams[matchIndex];
+        const secondTeam = roundTeams[roundTeams.length - 1 - matchIndex];
+        const swapHome = (roundIndex + matchIndex) % 2 === 1;
+
+        matches.push({
           group_id: groupId,
-          home_team_id: t.get(group.teams[homeIndex]),
-          away_team_id: t.get(group.teams[awayIndex])
-        });
-        pairs.push({
-          group_id: groupId,
-          home_team_id: t.get(group.teams[awayIndex]),
-          away_team_id: t.get(group.teams[homeIndex])
+          home_team_id: t.get(swapHome ? secondTeam : firstTeam),
+          away_team_id: t.get(swapHome ? firstTeam : secondTeam)
         });
       }
+
+      firstHalfRounds.push(matches);
+      rotatingTeams = [rotatingTeams[rotatingTeams.length - 1], ...rotatingTeams.slice(0, -1)];
     }
 
-    return pairs.map((fixture, index) => ({
-      ...fixture,
-      matchday: Math.floor((index * 3) / pairs.length) + 1
-    }));
-  });
+    const secondHalfRounds = firstHalfRounds.map((matches) =>
+      matches.map((fixture) => ({
+        group_id: groupId,
+        home_team_id: fixture.away_team_id,
+        away_team_id: fixture.home_team_id
+      }))
+    );
+
+    return [...firstHalfRounds, ...secondHalfRounds].flatMap((matches, roundIndex) =>
+      matches.map((fixture) => ({
+        ...fixture,
+        matchday: Math.floor(roundIndex / 6) + 1
+      }))
+    );
+  }
+
+  const fixturesByGroup = groups.map((group) => buildGroupFixtures(group));
 
   const fixturesData = [1, 2, 3].flatMap((matchday) =>
     fixturesByGroup.flatMap((groupFixtures) =>

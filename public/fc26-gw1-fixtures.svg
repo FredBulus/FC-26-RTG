@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2300" viewBox="0 0 1600 2300" role="img" aria-labelledby="title desc">
-  <title id="title">FC 26 Game Week 1 Fixtures</title>
-  <desc id="desc">Shareable FC 26 League Game Week 1 fixture poster split by group.</desc>
+  <title id="title">FC 26 Game Week 1 Matches</title>
+  <desc id="desc">Shareable FC 26 League Game Week 1 matchup poster split by group.</desc>
   <defs>
     <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
       <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#370050" stroke-opacity="0.08" stroke-width="1"/>
@@ -30,7 +30,7 @@
   <g filter="url(#shadow)">
     <rect x="70" y="70" width="1460" height="250" rx="32" fill="url(#hero)"/>
     <text x="120" y="145" class="eyebrow">FC 26 LEAGUE</text>
-    <text x="120" y="238" class="title">Game Week 1 Fixtures</text>
+    <text x="120" y="238" class="title">Game Week 1 Matches</text>
     <text x="1130" y="177" class="subtitle">60 matches</text>
   </g>
   
@@ -41,115 +41,115 @@
         
           <g>
             <rect x="90" y="486" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="514" class="fixture"><tspan class="number">1.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Deelo_official</text>
+            <text x="114" y="514" class="fixture"><tspan class="number">1.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Sixdigits_man</text>
           </g>
           <g>
             <rect x="90" y="540" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="568" class="fixture"><tspan class="number">2.</tspan> Deelo_official <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="568" class="fixture"><tspan class="number">2.</tspan> Deelo_official <tspan class="versus">v</tspan> Sanematic</text>
           </g>
           <g>
             <rect x="90" y="594" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="622" class="fixture"><tspan class="number">3.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Demreal</text>
+            <text x="114" y="622" class="fixture"><tspan class="number">3.</tspan> Demreal <tspan class="versus">v</tspan> Onli-1-ik</text>
           </g>
           <g>
             <rect x="90" y="648" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="676" class="fixture"><tspan class="number">4.</tspan> Demreal <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="676" class="fixture"><tspan class="number">4.</tspan> ethanol_c <tspan class="versus">v</tspan> Kinginthe_west</text>
           </g>
           <g>
             <rect x="90" y="702" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="730" class="fixture"><tspan class="number">5.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> ethanol_c</text>
+            <text x="114" y="730" class="fixture"><tspan class="number">5.</tspan> Ibelieverr <tspan class="versus">v</tspan> ireayo_1</text>
           </g>
           <g>
             <rect x="90" y="756" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="784" class="fixture"><tspan class="number">6.</tspan> ethanol_c <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="784" class="fixture"><tspan class="number">6.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Sanematic</text>
           </g>
           <g>
             <rect x="90" y="810" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="838" class="fixture"><tspan class="number">7.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Ibelieverr</text>
+            <text x="114" y="838" class="fixture"><tspan class="number">7.</tspan> Onli-1-ik <tspan class="versus">v</tspan> Sixdigits_man</text>
           </g>
           <g>
             <rect x="90" y="864" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="892" class="fixture"><tspan class="number">8.</tspan> Ibelieverr <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="892" class="fixture"><tspan class="number">8.</tspan> Deelo_official <tspan class="versus">v</tspan> Kinginthe_west</text>
           </g>
           <g>
             <rect x="90" y="918" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="946" class="fixture"><tspan class="number">9.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> ireayo_1</text>
+            <text x="114" y="946" class="fixture"><tspan class="number">9.</tspan> Demreal <tspan class="versus">v</tspan> ireayo_1</text>
           </g>
           <g>
             <rect x="90" y="972" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1000" class="fixture"><tspan class="number">10.</tspan> ireayo_1 <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="1000" class="fixture"><tspan class="number">10.</tspan> ethanol_c <tspan class="versus">v</tspan> Ibelieverr</text>
           </g>
           <g>
             <rect x="90" y="1026" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1054" class="fixture"><tspan class="number">11.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Kinginthe_west</text>
+            <text x="114" y="1054" class="fixture"><tspan class="number">11.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Onli-1-ik</text>
           </g>
           <g>
             <rect x="90" y="1080" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1108" class="fixture"><tspan class="number">12.</tspan> Kinginthe_west <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="1108" class="fixture"><tspan class="number">12.</tspan> Kinginthe_west <tspan class="versus">v</tspan> Sanematic</text>
           </g>
           <g>
             <rect x="90" y="1134" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1162" class="fixture"><tspan class="number">13.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Onli-1-ik</text>
+            <text x="114" y="1162" class="fixture"><tspan class="number">13.</tspan> ireayo_1 <tspan class="versus">v</tspan> Sixdigits_man</text>
           </g>
           <g>
             <rect x="90" y="1188" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1216" class="fixture"><tspan class="number">14.</tspan> Onli-1-ik <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="1216" class="fixture"><tspan class="number">14.</tspan> Deelo_official <tspan class="versus">v</tspan> Ibelieverr</text>
           </g>
           <g>
             <rect x="90" y="1242" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1270" class="fixture"><tspan class="number">15.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Sanematic</text>
+            <text x="114" y="1270" class="fixture"><tspan class="number">15.</tspan> Demreal <tspan class="versus">v</tspan> ethanol_c</text>
           </g>
           <g>
             <rect x="90" y="1296" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1324" class="fixture"><tspan class="number">16.</tspan> Sanematic <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="1324" class="fixture"><tspan class="number">16.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Kinginthe_west</text>
           </g>
           <g>
             <rect x="90" y="1350" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1378" class="fixture"><tspan class="number">17.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Sixdigits_man</text>
+            <text x="114" y="1378" class="fixture"><tspan class="number">17.</tspan> ireayo_1 <tspan class="versus">v</tspan> Onli-1-ik</text>
           </g>
           <g>
             <rect x="90" y="1404" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1432" class="fixture"><tspan class="number">18.</tspan> Sixdigits_man <tspan class="versus">v</tspan> Blvck_sparrow60</text>
+            <text x="114" y="1432" class="fixture"><tspan class="number">18.</tspan> Ibelieverr <tspan class="versus">v</tspan> Sanematic</text>
           </g>
           <g>
             <rect x="90" y="1458" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1486" class="fixture"><tspan class="number">19.</tspan> Deelo_official <tspan class="versus">v</tspan> Demreal</text>
+            <text x="114" y="1486" class="fixture"><tspan class="number">19.</tspan> ethanol_c <tspan class="versus">v</tspan> Sixdigits_man</text>
           </g>
           <g>
             <rect x="90" y="1512" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1540" class="fixture"><tspan class="number">20.</tspan> Demreal <tspan class="versus">v</tspan> Deelo_official</text>
+            <text x="114" y="1540" class="fixture"><tspan class="number">20.</tspan> Deelo_official <tspan class="versus">v</tspan> Demreal</text>
           </g>
           <g>
             <rect x="90" y="1566" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1594" class="fixture"><tspan class="number">21.</tspan> Deelo_official <tspan class="versus">v</tspan> ethanol_c</text>
+            <text x="114" y="1594" class="fixture"><tspan class="number">21.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> ireayo_1</text>
           </g>
           <g>
             <rect x="90" y="1620" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1648" class="fixture"><tspan class="number">22.</tspan> ethanol_c <tspan class="versus">v</tspan> Deelo_official</text>
+            <text x="114" y="1648" class="fixture"><tspan class="number">22.</tspan> Ibelieverr <tspan class="versus">v</tspan> Kinginthe_west</text>
           </g>
           <g>
             <rect x="90" y="1674" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1702" class="fixture"><tspan class="number">23.</tspan> Deelo_official <tspan class="versus">v</tspan> Ibelieverr</text>
+            <text x="114" y="1702" class="fixture"><tspan class="number">23.</tspan> ethanol_c <tspan class="versus">v</tspan> Onli-1-ik</text>
           </g>
           <g>
             <rect x="90" y="1728" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1756" class="fixture"><tspan class="number">24.</tspan> Ibelieverr <tspan class="versus">v</tspan> Deelo_official</text>
+            <text x="114" y="1756" class="fixture"><tspan class="number">24.</tspan> Demreal <tspan class="versus">v</tspan> Sanematic</text>
           </g>
           <g>
             <rect x="90" y="1782" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1810" class="fixture"><tspan class="number">25.</tspan> Deelo_official <tspan class="versus">v</tspan> ireayo_1</text>
+            <text x="114" y="1810" class="fixture"><tspan class="number">25.</tspan> Deelo_official <tspan class="versus">v</tspan> Sixdigits_man</text>
           </g>
           <g>
             <rect x="90" y="1836" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1864" class="fixture"><tspan class="number">26.</tspan> ireayo_1 <tspan class="versus">v</tspan> Deelo_official</text>
+            <text x="114" y="1864" class="fixture"><tspan class="number">26.</tspan> Blvck_sparrow60 <tspan class="versus">v</tspan> Ibelieverr</text>
           </g>
           <g>
             <rect x="90" y="1890" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="114" y="1918" class="fixture"><tspan class="number">27.</tspan> Deelo_official <tspan class="versus">v</tspan> Kinginthe_west</text>
+            <text x="114" y="1918" class="fixture"><tspan class="number">27.</tspan> ethanol_c <tspan class="versus">v</tspan> ireayo_1</text>
           </g>
           <g>
             <rect x="90" y="1944" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="1972" class="fixture"><tspan class="number">28.</tspan> Kinginthe_west <tspan class="versus">v</tspan> Deelo_official</text>
+            <text x="114" y="1972" class="fixture"><tspan class="number">28.</tspan> Demreal <tspan class="versus">v</tspan> Kinginthe_west</text>
           </g>
           <g>
             <rect x="90" y="1998" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
@@ -157,7 +157,7 @@
           </g>
           <g>
             <rect x="90" y="2052" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="114" y="2080" class="fixture"><tspan class="number">30.</tspan> Onli-1-ik <tspan class="versus">v</tspan> Deelo_official</text>
+            <text x="114" y="2080" class="fixture"><tspan class="number">30.</tspan> Sanematic <tspan class="versus">v</tspan> Sixdigits_man</text>
           </g>
       </g>
       <g filter="url(#shadow)">
@@ -167,115 +167,115 @@
         
           <g>
             <rect x="870" y="486" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="514" class="fixture"><tspan class="number">1.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Emeka</text>
+            <text x="894" y="514" class="fixture"><tspan class="number">1.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Quivcy</text>
           </g>
           <g>
             <rect x="870" y="540" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="568" class="fixture"><tspan class="number">2.</tspan> Emeka <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="568" class="fixture"><tspan class="number">2.</tspan> Emeka <tspan class="versus">v</tspan> Mr-blaze24-</text>
           </g>
           <g>
             <rect x="870" y="594" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="622" class="fixture"><tspan class="number">3.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Fr3ddreek</text>
+            <text x="894" y="622" class="fixture"><tspan class="number">3.</tspan> Fr3ddreek <tspan class="versus">v</tspan> Lordswiss</text>
           </g>
           <g>
             <rect x="870" y="648" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="676" class="fixture"><tspan class="number">4.</tspan> Fr3ddreek <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="676" class="fixture"><tspan class="number">4.</tspan> Funzy600 <tspan class="versus">v</tspan> Lastbreed77</text>
           </g>
           <g>
             <rect x="870" y="702" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="730" class="fixture"><tspan class="number">5.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Funzy600</text>
+            <text x="894" y="730" class="fixture"><tspan class="number">5.</tspan> Gameon9910 <tspan class="versus">v</tspan> Imw2288</text>
           </g>
           <g>
             <rect x="870" y="756" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="784" class="fixture"><tspan class="number">6.</tspan> Funzy600 <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="784" class="fixture"><tspan class="number">6.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Mr-blaze24-</text>
           </g>
           <g>
             <rect x="870" y="810" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="838" class="fixture"><tspan class="number">7.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Gameon9910</text>
+            <text x="894" y="838" class="fixture"><tspan class="number">7.</tspan> Lordswiss <tspan class="versus">v</tspan> Quivcy</text>
           </g>
           <g>
             <rect x="870" y="864" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="892" class="fixture"><tspan class="number">8.</tspan> Gameon9910 <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="892" class="fixture"><tspan class="number">8.</tspan> Emeka <tspan class="versus">v</tspan> Lastbreed77</text>
           </g>
           <g>
             <rect x="870" y="918" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="946" class="fixture"><tspan class="number">9.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Imw2288</text>
+            <text x="894" y="946" class="fixture"><tspan class="number">9.</tspan> Fr3ddreek <tspan class="versus">v</tspan> Imw2288</text>
           </g>
           <g>
             <rect x="870" y="972" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1000" class="fixture"><tspan class="number">10.</tspan> Imw2288 <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="1000" class="fixture"><tspan class="number">10.</tspan> Funzy600 <tspan class="versus">v</tspan> Gameon9910</text>
           </g>
           <g>
             <rect x="870" y="1026" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1054" class="fixture"><tspan class="number">11.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Lastbreed77</text>
+            <text x="894" y="1054" class="fixture"><tspan class="number">11.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Lordswiss</text>
           </g>
           <g>
             <rect x="870" y="1080" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1108" class="fixture"><tspan class="number">12.</tspan> Lastbreed77 <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="1108" class="fixture"><tspan class="number">12.</tspan> Lastbreed77 <tspan class="versus">v</tspan> Mr-blaze24-</text>
           </g>
           <g>
             <rect x="870" y="1134" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1162" class="fixture"><tspan class="number">13.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Lordswiss</text>
+            <text x="894" y="1162" class="fixture"><tspan class="number">13.</tspan> Imw2288 <tspan class="versus">v</tspan> Quivcy</text>
           </g>
           <g>
             <rect x="870" y="1188" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1216" class="fixture"><tspan class="number">14.</tspan> Lordswiss <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="1216" class="fixture"><tspan class="number">14.</tspan> Emeka <tspan class="versus">v</tspan> Gameon9910</text>
           </g>
           <g>
             <rect x="870" y="1242" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1270" class="fixture"><tspan class="number">15.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Mr-blaze24-</text>
+            <text x="894" y="1270" class="fixture"><tspan class="number">15.</tspan> Fr3ddreek <tspan class="versus">v</tspan> Funzy600</text>
           </g>
           <g>
             <rect x="870" y="1296" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1324" class="fixture"><tspan class="number">16.</tspan> Mr-blaze24- <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="1324" class="fixture"><tspan class="number">16.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Lastbreed77</text>
           </g>
           <g>
             <rect x="870" y="1350" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1378" class="fixture"><tspan class="number">17.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Quivcy</text>
+            <text x="894" y="1378" class="fixture"><tspan class="number">17.</tspan> Imw2288 <tspan class="versus">v</tspan> Lordswiss</text>
           </g>
           <g>
             <rect x="870" y="1404" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1432" class="fixture"><tspan class="number">18.</tspan> Quivcy <tspan class="versus">v</tspan> Blavk_dots13</text>
+            <text x="894" y="1432" class="fixture"><tspan class="number">18.</tspan> Gameon9910 <tspan class="versus">v</tspan> Mr-blaze24-</text>
           </g>
           <g>
             <rect x="870" y="1458" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1486" class="fixture"><tspan class="number">19.</tspan> Emeka <tspan class="versus">v</tspan> Fr3ddreek</text>
+            <text x="894" y="1486" class="fixture"><tspan class="number">19.</tspan> Funzy600 <tspan class="versus">v</tspan> Quivcy</text>
           </g>
           <g>
             <rect x="870" y="1512" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1540" class="fixture"><tspan class="number">20.</tspan> Fr3ddreek <tspan class="versus">v</tspan> Emeka</text>
+            <text x="894" y="1540" class="fixture"><tspan class="number">20.</tspan> Emeka <tspan class="versus">v</tspan> Fr3ddreek</text>
           </g>
           <g>
             <rect x="870" y="1566" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1594" class="fixture"><tspan class="number">21.</tspan> Emeka <tspan class="versus">v</tspan> Funzy600</text>
+            <text x="894" y="1594" class="fixture"><tspan class="number">21.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Imw2288</text>
           </g>
           <g>
             <rect x="870" y="1620" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1648" class="fixture"><tspan class="number">22.</tspan> Funzy600 <tspan class="versus">v</tspan> Emeka</text>
+            <text x="894" y="1648" class="fixture"><tspan class="number">22.</tspan> Gameon9910 <tspan class="versus">v</tspan> Lastbreed77</text>
           </g>
           <g>
             <rect x="870" y="1674" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1702" class="fixture"><tspan class="number">23.</tspan> Emeka <tspan class="versus">v</tspan> Gameon9910</text>
+            <text x="894" y="1702" class="fixture"><tspan class="number">23.</tspan> Funzy600 <tspan class="versus">v</tspan> Lordswiss</text>
           </g>
           <g>
             <rect x="870" y="1728" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1756" class="fixture"><tspan class="number">24.</tspan> Gameon9910 <tspan class="versus">v</tspan> Emeka</text>
+            <text x="894" y="1756" class="fixture"><tspan class="number">24.</tspan> Fr3ddreek <tspan class="versus">v</tspan> Mr-blaze24-</text>
           </g>
           <g>
             <rect x="870" y="1782" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1810" class="fixture"><tspan class="number">25.</tspan> Emeka <tspan class="versus">v</tspan> Imw2288</text>
+            <text x="894" y="1810" class="fixture"><tspan class="number">25.</tspan> Emeka <tspan class="versus">v</tspan> Quivcy</text>
           </g>
           <g>
             <rect x="870" y="1836" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1864" class="fixture"><tspan class="number">26.</tspan> Imw2288 <tspan class="versus">v</tspan> Emeka</text>
+            <text x="894" y="1864" class="fixture"><tspan class="number">26.</tspan> Blavk_dots13 <tspan class="versus">v</tspan> Gameon9910</text>
           </g>
           <g>
             <rect x="870" y="1890" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
-            <text x="894" y="1918" class="fixture"><tspan class="number">27.</tspan> Emeka <tspan class="versus">v</tspan> Lastbreed77</text>
+            <text x="894" y="1918" class="fixture"><tspan class="number">27.</tspan> Funzy600 <tspan class="versus">v</tspan> Imw2288</text>
           </g>
           <g>
             <rect x="870" y="1944" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="1972" class="fixture"><tspan class="number">28.</tspan> Lastbreed77 <tspan class="versus">v</tspan> Emeka</text>
+            <text x="894" y="1972" class="fixture"><tspan class="number">28.</tspan> Fr3ddreek <tspan class="versus">v</tspan> Lastbreed77</text>
           </g>
           <g>
             <rect x="870" y="1998" width="700" height="44" rx="10" fill="#ffffff" opacity="0.95"/>
@@ -283,7 +283,7 @@
           </g>
           <g>
             <rect x="870" y="2052" width="700" height="44" rx="10" fill="#f9f0fb" opacity="0.95"/>
-            <text x="894" y="2080" class="fixture"><tspan class="number">30.</tspan> Lordswiss <tspan class="versus">v</tspan> Emeka</text>
+            <text x="894" y="2080" class="fixture"><tspan class="number">30.</tspan> Mr-blaze24- <tspan class="versus">v</tspan> Quivcy</text>
           </g>
       </g>
   <text x="800" y="2244" text-anchor="middle" class="footer">Play early. Stream if possible. Send result screenshots.</text>
