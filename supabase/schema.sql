@@ -50,6 +50,12 @@ create table if not exists public.standings (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.standing_position_snapshots (
+  team_id uuid primary key references public.teams(id) on delete cascade,
+  previous_position integer not null check (previous_position > 0),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.knockout_matches (
   id uuid primary key default gen_random_uuid(),
   round text not null check (round in ('Quarter Final', 'Semi Final', 'Final')),
@@ -344,6 +350,7 @@ alter table public.groups enable row level security;
 alter table public.teams enable row level security;
 alter table public.fixtures enable row level security;
 alter table public.standings enable row level security;
+alter table public.standing_position_snapshots enable row level security;
 alter table public.knockout_matches enable row level security;
 alter table public.admins enable row level security;
 
@@ -351,12 +358,14 @@ create policy "Public can read groups" on public.groups for select using (true);
 create policy "Public can read teams" on public.teams for select using (true);
 create policy "Public can read fixtures" on public.fixtures for select using (true);
 create policy "Public can read standings" on public.standings for select using (true);
+create policy "Public can read standing position snapshots" on public.standing_position_snapshots for select using (true);
 create policy "Public can read knockout matches" on public.knockout_matches for select using (true);
 
 create policy "Admins can manage groups" on public.groups for all using (public.is_admin()) with check (public.is_admin());
 create policy "Admins can manage teams" on public.teams for all using (public.is_admin()) with check (public.is_admin());
 create policy "Admins can manage fixtures" on public.fixtures for all using (public.is_admin()) with check (public.is_admin());
 create policy "Admins can manage standings" on public.standings for all using (public.is_admin()) with check (public.is_admin());
+create policy "Admins can manage standing position snapshots" on public.standing_position_snapshots for all using (public.is_admin()) with check (public.is_admin());
 create policy "Admins can manage knockout" on public.knockout_matches for all using (public.is_admin()) with check (public.is_admin());
 create policy "Admins can read admins" on public.admins for select using (public.is_admin());
 

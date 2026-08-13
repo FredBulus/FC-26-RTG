@@ -1,4 +1,23 @@
+import { ChevronDown, ChevronUp, Minus } from "lucide-react";
 import type { Standing } from "@/lib/types";
+
+function MovementIndicator({
+  currentPosition,
+  previousPosition
+}: {
+  currentPosition: number;
+  previousPosition?: number | null;
+}) {
+  if (!previousPosition || previousPosition === currentPosition) {
+    return <Minus size={14} className="text-ink/35" aria-label="No position change" />;
+  }
+
+  if (previousPosition > currentPosition) {
+    return <ChevronUp size={16} className="text-[#21a852]" aria-label="Moved up" />;
+  }
+
+  return <ChevronDown size={16} className="text-[#e90052]" aria-label="Moved down" />;
+}
 
 export function StandingsTable({ title, rows }: { title: string; rows: Standing[] }) {
   const displayTitle = title === "League" ? "League Standing" : title;
@@ -23,6 +42,7 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
           <thead className="bg-pitch text-xs uppercase tracking-[0.16em] text-ink/55">
             <tr>
               <th className="w-3 px-0 py-3" aria-label="Status" />
+              <th className="px-4 py-3">Pos</th>
               <th className="px-4 py-3">Team</th>
               <th className="px-3 py-3 text-center">P</th>
               <th className="px-3 py-3 text-center">W</th>
@@ -62,8 +82,16 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
                 <td className="px-0 py-0">
                   <span className={`block h-full min-h-14 w-1.5 rounded-r-full ${markerClass}`} />
                 </td>
+                <td className="px-4 py-3">
+                  <span className="inline-flex min-w-14 items-center gap-3 font-black text-ink">
+                    {place}
+                    <MovementIndicator
+                      currentPosition={place}
+                      previousPosition={row.previous_position}
+                    />
+                  </span>
+                </td>
                 <td className="px-4 py-3 font-bold">
-                  <span className="mr-3 text-ink/45">{place}</span>
                   {row.teams?.name}
                   {place === 1 ? (
                     <span className="ml-3 rounded-full bg-[#ff2882] px-2 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">

@@ -2,7 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { standingsWithPositions } from "@/lib/standings";
 import { createClient } from "@/lib/supabase/server";
+import type { Standing } from "@/lib/types";
 
 function optionalString(value: FormDataEntryValue | null) {
   const text = value?.toString().trim();
@@ -12,6 +14,25 @@ function optionalString(value: FormDataEntryValue | null) {
 function optionalNumber(value: FormDataEntryValue | null) {
   const text = value?.toString().trim();
   return text ? Number(text) : null;
+}
+
+async function snapshotCurrentStandings(supabase: ReturnType<typeof createClient>) {
+  const { data, error } = await supabase
+    .from("standings")
+    .select("*, teams(*), groups(*)");
+
+  if (error || !data) return;
+
+  const snapshots = standingsWithPositions(data as Standing[]).map((row) => ({
+    team_id: row.team_id,
+    previous_position: row.position
+  }));
+
+  if (!snapshots.length) return;
+
+  await supabase
+    .from("standing_position_snapshots")
+    .upsert(snapshots, { onConflict: "team_id" });
 }
 
 export async function login(formData: FormData) {
@@ -58,6 +79,8 @@ export async function updateFixture(formData: FormData) {
   const homeScore = optionalNumber(formData.get("home_score"));
   const awayScore = optionalNumber(formData.get("away_score"));
   const status = formData.get("status")?.toString() ?? "scheduled";
+
+  await snapshotCurrentStandings(supabase);
 
   const { error } = await supabase
     .from("fixtures")

@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { standingsWithPositions } from "@/lib/standings";
 import type { Fixture, Group, Standing, Team } from "@/lib/types";
 
 export async function getTeams() {
@@ -44,18 +45,25 @@ export async function getStandings() {
     .select("*, teams(*), groups(*)");
 
   if (error) throw error;
-  return (data as Standing[]).sort((a, b) => {
-    const standingsSort =
-      b.points - a.points ||
-      b.goal_difference - a.goal_difference ||
-      b.goals_for - a.goals_for ||
-      b.wins - a.wins;
 
-    if (standingsSort !== 0) return standingsSort;
+  const sortedStandings = standingsWithPositions(data as Standing[]);
+  const { data: snapshots } = await supabase
+    .from("standing_position_snapshots")
+    .select("team_id, previous_position");
+  const previousPositions = new Map(
+    (snapshots ?? []).map((snapshot: { team_id: string; previous_position: number }) => [
+      snapshot.team_id,
+      snapshot.previous_position
+    ])
+  );
 
-    return (a.teams?.name ?? "").localeCompare(b.teams?.name ?? "", undefined, {
-      sensitivity: "base"
-    });
+  return sortedStandings.map((row) => {
+    const previousPosition = previousPositions.get(row.team_id);
+
+    return {
+      ...row,
+      previous_position: previousPosition ?? row.position
+    };
   });
 }
 

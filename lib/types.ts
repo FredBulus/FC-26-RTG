@@ -38,6 +38,8 @@ export type Standing = {
   goals_against: number;
   goal_difference: number;
   points: number;
+  previous_position?: number | null;
+  position?: number;
   teams?: Team | null;
   groups?: Group | null;
 };
