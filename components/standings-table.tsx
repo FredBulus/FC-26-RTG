@@ -42,7 +42,6 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
           <thead className="bg-pitch text-xs uppercase tracking-[0.16em] text-ink/55">
             <tr>
               <th className="w-3 px-0 py-3" aria-label="Status" />
-              <th className="px-4 py-3">Pos</th>
               <th className="px-4 py-3">Team</th>
               <th className="px-3 py-3 text-center">P</th>
               <th className="px-3 py-3 text-center">W</th>
@@ -82,16 +81,14 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
                 <td className="px-0 py-0">
                   <span className={`block h-full min-h-14 w-1.5 rounded-r-full ${markerClass}`} />
                 </td>
-                <td className="px-4 py-3">
-                  <span className="inline-flex min-w-14 items-center gap-3 font-black text-ink">
+                <td className="px-4 py-3 font-bold">
+                  <span className="mr-3 inline-flex w-12 items-center gap-2 font-black text-ink">
                     {place}
                     <MovementIndicator
                       currentPosition={place}
                       previousPosition={row.previous_position}
                     />
                   </span>
-                </td>
-                <td className="px-4 py-3 font-bold">
                   {row.teams?.name}
                   {place === 1 ? (
                     <span className="ml-3 rounded-full bg-[#ff2882] px-2 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">
