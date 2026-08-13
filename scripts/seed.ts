@@ -113,32 +113,37 @@ async function main() {
 
   const t = new Map(teamRows.map((team: any) => [team.name, team.id]));
 
-  // 5. Fixtures: each group plays home and away.
-  const fixturePairs = [];
-
-  for (const group of groups) {
+  // 5. Fixtures: each group plays home and away across the same three game weeks.
+  const fixturesByGroup = groups.map((group) => {
     const groupId = groupIds.get(group.name);
+    const pairs = [];
 
     for (let homeIndex = 0; homeIndex < group.teams.length; homeIndex += 1) {
       for (let awayIndex = homeIndex + 1; awayIndex < group.teams.length; awayIndex += 1) {
-        fixturePairs.push({
+        pairs.push({
           group_id: groupId,
           home_team_id: t.get(group.teams[homeIndex]),
           away_team_id: t.get(group.teams[awayIndex])
         });
-        fixturePairs.push({
+        pairs.push({
           group_id: groupId,
           home_team_id: t.get(group.teams[awayIndex]),
           away_team_id: t.get(group.teams[homeIndex])
         });
       }
     }
-  }
 
-  const fixturesData = fixturePairs.map((fixture, index) => ({
-    ...fixture,
-    matchday: Math.floor((index * 3) / fixturePairs.length) + 1
-  }));
+    return pairs.map((fixture, index) => ({
+      ...fixture,
+      matchday: Math.floor((index * 3) / pairs.length) + 1
+    }));
+  });
+
+  const fixturesData = [1, 2, 3].flatMap((matchday) =>
+    fixturesByGroup.flatMap((groupFixtures) =>
+      groupFixtures.filter((fixture) => fixture.matchday === matchday)
+    )
+  );
 
   await check(supabase.from("fixtures").insert(fixturesData));
   console.log(`${fixturesData.length} league fixtures inserted across 3 game weeks.`);

@@ -30,7 +30,7 @@ export default async function HomePage() {
           <PageTitle eyebrow="Tournament HQ" title={tournamentName}>
             Follow every league fixture, table movement, and result from a single
             read-only public experience. Two groups battle through three game weeks,
-            with prize places, knockout places, and division status all tracked.
+            with prize places, knockout places, and relegation markers all tracked.
           </PageTitle>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <Link href="/fixtures" className="rounded-md border border-line bg-white p-4 shadow-glow transition hover:-translate-y-0.5 hover:border-cyan">

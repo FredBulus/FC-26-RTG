@@ -40,6 +40,12 @@ export function FixtureSchedule({
   });
   const [activeWeek, setActiveWeek] = useState(gameWeeks[0] ?? "");
   const activeMatches = groupedMatches[activeWeek] ?? [];
+  const activeMatchesByGroup = activeMatches.reduce<Record<string, ScheduleMatch[]>>((acc, match) => {
+    const groupName = match.groups?.name ?? "Ungrouped";
+    acc[groupName] = acc[groupName] ?? [];
+    acc[groupName].push(match);
+    return acc;
+  }, {});
 
   return (
     <section className="space-y-5">
@@ -64,9 +70,18 @@ export function FixtureSchedule({
 
       <section>
         <h2 className="mb-3 text-2xl font-black text-ink">{activeWeek}</h2>
-        <div className="grid gap-4 lg:grid-cols-2">
-          {activeMatches.map((match) => (
-            <MatchCard key={match.id} match={match} />
+        <div className="grid gap-5 xl:grid-cols-2">
+          {Object.entries(activeMatchesByGroup).map(([groupName, groupMatches]) => (
+            <section key={groupName} className="space-y-3">
+              <div className="rounded-md bg-ink px-4 py-3 text-white">
+                <h3 className="text-lg font-black">{groupName}</h3>
+              </div>
+              <div className="grid gap-4">
+                {groupMatches.map((match) => (
+                  <MatchCard key={match.id} match={match} />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       </section>

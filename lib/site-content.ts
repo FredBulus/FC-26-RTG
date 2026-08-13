@@ -18,8 +18,8 @@ export const siteContent = {
         "Every player plays everyone in their group home and away.",
         "Fixtures are split across three game weeks.",
         "The top 4 from each group qualify for the knockout tournament.",
-        "The top 8 from each group move into Division 1 next season.",
-        "The bottom 2 from each group move into Division 2 next season."
+        "The bottom 2 from each group move into Division 2 next season.",
+        "Everyone else remains in Division 1."
       ]
     },
     {

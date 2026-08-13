@@ -96,8 +96,8 @@
     <text x="660" y="706" class="sectionTitle ink">🏆 Qualification</text>
     <text x="660" y="758" class="body ink">• Top 4 in each group qualify</text>
     <text x="682" y="796" class="body ink">for the knockout tournament.</text>
-    <text x="660" y="846" class="body ink">• Top 8 move into Division 1.</text>
-    <text x="660" y="890" class="body ink">• Bottom 2 move into Division 2.</text>
+    <text x="660" y="846" class="body ink">• Bottom 2 move into Division 2.</text>
+    <text x="660" y="890" class="body ink">• Everyone else stays in Division 1.</text>
   </g>
 
   <g filter="url(#shadow)">

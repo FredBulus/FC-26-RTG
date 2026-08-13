@@ -36,12 +36,8 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
             Qualifies for Knockout Tournament
           </span>
           <span className="inline-flex items-center gap-2">
-            <span className="h-5 w-1.5 rounded-full bg-[#ffd44d]" />
-            Qualifies for Division 1
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="h-5 w-1.5 rounded-full bg-[#e90052]" />
-            Moves to Division 2
+            <span className="h-5 w-1.5 rounded-full bg-[#ff6900]" />
+            Moves to DIV 2
           </span>
         </div>
       </div>
@@ -68,34 +64,15 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
               const place = index + 1;
               const isPrizePlace = place <= 2;
               const isKnockoutQualifier = place <= 4;
-              const isDivisionOne = place <= 8;
               const isDivisionTwo = place > rows.length - 2;
-              const rowClass = isPrizePlace
-                ? "bg-[#fff2f8]"
-                : isKnockoutQualifier
-                  ? "bg-[#e8feff]"
-                  : isDivisionOne
-                    ? "bg-[#fff9db]"
-                    : isDivisionTwo
-                      ? "bg-[#fff0f3]"
-                  : undefined;
-              const pointsBg = isPrizePlace
-                ? "bg-[#fff2f8]"
-                : isKnockoutQualifier
-                  ? "bg-[#e8feff]"
-                  : isDivisionOne
-                    ? "bg-[#fff9db]"
-                    : isDivisionTwo
-                      ? "bg-[#fff0f3]"
-                  : "bg-white";
+              const rowClass = isPrizePlace ? "bg-[#fff2f8]" : undefined;
+              const pointsBg = isPrizePlace ? "bg-[#fff2f8]" : "bg-white";
               const markerClass = isPrizePlace
                 ? "bg-[#ff2882]"
                 : isKnockoutQualifier
                   ? "bg-[#04f5ff]"
-                  : isDivisionOne
-                    ? "bg-[#ffd44d]"
-                    : isDivisionTwo
-                      ? "bg-[#e90052]"
+                  : isDivisionTwo
+                    ? "bg-[#ff6900]"
                   : "bg-transparent";
 
               return (
@@ -115,6 +92,11 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
                   {place === 1 ? (
                     <span className="ml-3 rounded-full bg-[#ff2882] px-2 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">
                       W
+                    </span>
+                  ) : null}
+                  {isDivisionTwo ? (
+                    <span className="ml-3 rounded-full bg-[#ff6900] px-2 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">
+                      R
                     </span>
                   ) : null}
                 </td>
