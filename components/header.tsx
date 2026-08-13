@@ -28,10 +28,10 @@ export function Header() {
             ))}
           </nav>
           <Link
-            href="/admin/login"
+            href="/admin"
             className="rounded-md bg-gold px-4 py-2 text-sm font-black text-white transition hover:bg-cyan hover:text-ink"
           >
-            Admin Login
+            Admin
           </Link>
         </div>
       </div>
