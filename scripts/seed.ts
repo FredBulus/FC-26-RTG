@@ -45,7 +45,7 @@ async function main() {
     "Mr-blaze24-",
     "Lastbreed77",
     "Sanematic",
-    "Funzy",
+    "Funzy600",
     "Emeka",
     "Gameon9910"
   ].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
