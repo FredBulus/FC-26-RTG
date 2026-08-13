@@ -104,6 +104,17 @@ async function main() {
   console.log(`${fixturesData.length} league fixtures inserted across 4 game weeks.`);
 
   await check(supabase.rpc("recalculate_standings"));
+  await check(
+    supabase
+      .from("standing_position_snapshots")
+      .upsert(
+        teamNames.map((teamName, index) => ({
+          team_id: t.get(teamName),
+          previous_position: index + 1
+        })),
+        { onConflict: "team_id" }
+      )
+  );
 
   console.log("Seeding complete.");
 }

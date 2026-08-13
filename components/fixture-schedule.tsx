@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { MatchCard } from "@/components/match-card";
 import type { Fixture } from "@/lib/types";
 
@@ -33,19 +33,43 @@ export function FixtureSchedule({
     acc[key].push(match);
     return acc;
   }, {});
+  const gameWeeks = Object.keys(groupedMatches).sort((a, b) => {
+    const weekA = Number(a.replace("Game Week ", ""));
+    const weekB = Number(b.replace("Game Week ", ""));
+    return weekA - weekB;
+  });
+  const [activeWeek, setActiveWeek] = useState(gameWeeks[0] ?? "");
+  const activeMatches = groupedMatches[activeWeek] ?? [];
 
   return (
     <section className="space-y-5">
-      {Object.entries(groupedMatches).map(([key, groupMatches]) => (
-        <section key={key}>
-          <h2 className="mb-3 text-2xl font-black text-ink">{key}</h2>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {groupMatches.map((match) => (
-              <MatchCard key={match.id} match={match} />
-            ))}
-          </div>
-        </section>
-      ))}
+      <div className="rounded-md border border-line bg-white p-2 shadow-glow">
+        <div className="grid gap-2 sm:grid-cols-4">
+          {gameWeeks.map((week) => (
+            <button
+              key={week}
+              type="button"
+              onClick={() => setActiveWeek(week)}
+              className={`rounded px-4 py-3 text-sm font-black transition ${
+                activeWeek === week
+                  ? "bg-ink text-white"
+                  : "bg-pitch text-ink hover:bg-cyan"
+              }`}
+            >
+              {week}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <section>
+        <h2 className="mb-3 text-2xl font-black text-ink">{activeWeek}</h2>
+        <div className="grid gap-4 lg:grid-cols-2">
+          {activeMatches.map((match) => (
+            <MatchCard key={match.id} match={match} />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }
