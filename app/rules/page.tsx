@@ -11,6 +11,26 @@ export default function RulesPage() {
         {siteContent.rulesIntro}
       </PageTitle>
 
+      <section className="rounded-md border border-line bg-ink p-4 text-white shadow-glow">
+        <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-cyan">
+              Prize List
+            </p>
+            <h2 className="text-2xl font-black">Season Rewards</h2>
+          </div>
+          <p className="text-sm font-semibold text-white/65">Registration: N5,000</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {siteContent.prizeList.map((prize) => (
+            <div key={prize.place} className="rounded-md bg-white/8 p-3">
+              <p className="text-sm font-black text-cyan">{prize.place}</p>
+              <p className="mt-1 text-xl font-black text-gold">{prize.amount}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="grid gap-4 lg:grid-cols-3">
         {siteContent.rules.map((section) => (
           <article
