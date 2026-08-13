@@ -17,7 +17,7 @@ export const siteContent = {
         "Each group has 10 players.",
         "Every player plays everyone in their group home and away.",
         "Fixtures are split across three game weeks.",
-        "The top 4 from each group qualify for the knockout tournament.",
+        "At the end of the league, the top 4 teams in each group qualify to play a knockout tournament for bragging rights.",
         "The bottom 2 from each group move into Division 2 next season.",
         "Everyone else remains in Division 1."
       ]
