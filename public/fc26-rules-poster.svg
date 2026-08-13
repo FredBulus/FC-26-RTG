@@ -41,11 +41,11 @@
     <rect x="70" y="70" width="1060" height="260" rx="24" fill="url(#hero)"/>
     <text x="115" y="135" class="eyebrow gold">FC 26 LEAGUE</text>
     <text x="115" y="218" class="title white">Rules &amp; Prizes</text>
-    <text x="115" y="278" class="subtitle white">Season starts 15 August • Runs for 4 weeks • 19 players</text>
-    <rect x="895" y="112" width="172" height="56" rx="12" class="pink"/>
-    <text x="922" y="150" class="small white">TOP 4 💰</text>
-    <rect x="842" y="184" width="225" height="56" rx="12" class="cyan"/>
-    <text x="868" y="222" class="small ink">TOP 8 QUALIFY 🏆</text>
+    <text x="115" y="278" class="subtitle white">Season starts 15 August • Runs for 3 weeks • 20 players</text>
+    <rect x="840" y="112" width="227" height="56" rx="12" class="pink"/>
+    <text x="865" y="150" class="small white">2 GROUPS 💰</text>
+    <rect x="806" y="184" width="261" height="56" rx="12" class="cyan"/>
+    <text x="832" y="222" class="small ink">TOP 4 QUALIFY 🏆</text>
   </g>
 
   <g filter="url(#shadow)">
@@ -55,28 +55,28 @@
 
     <g transform="translate(110 462)">
       <rect width="188" height="96" rx="16" fill="#fff2f8"/>
-      <text x="22" y="38" class="small ink">Winner</text>
-      <text x="22" y="74" class="amount pink">N42,500</text>
+      <text x="22" y="38" class="small ink">Group Winner</text>
+      <text x="22" y="74" class="amount pink">N30,000</text>
     </g>
     <g transform="translate(314 462)">
       <rect width="188" height="96" rx="16" fill="#f3feff"/>
-      <text x="22" y="38" class="small ink">2nd place</text>
-      <text x="22" y="74" class="amount ink">N20,000</text>
+      <text x="22" y="38" class="small ink">Group 2nd</text>
+      <text x="22" y="74" class="amount ink">N15,000</text>
     </g>
     <g transform="translate(518 462)">
       <rect width="188" height="96" rx="16" fill="#fff8dc"/>
-      <text x="22" y="38" class="small ink">3rd place</text>
-      <text x="22" y="74" class="amount ink">N15,000</text>
+      <text x="22" y="38" class="small ink">Each group</text>
+      <text x="22" y="74" class="amount ink">N45,000</text>
     </g>
     <g transform="translate(722 462)">
       <rect width="188" height="96" rx="16" fill="#f3feff"/>
-      <text x="22" y="38" class="small ink">4th place</text>
-      <text x="22" y="74" class="amount ink">N10,000</text>
+      <text x="22" y="38" class="small ink">Prize pot</text>
+      <text x="22" y="74" class="amount ink">N100,000</text>
     </g>
     <g transform="translate(926 462)">
       <rect width="164" height="96" rx="16" fill="#fff2f8"/>
       <text x="22" y="38" class="small ink">MIP ⭐</text>
-      <text x="22" y="74" class="amount pink">N7,500</text>
+      <text x="22" y="74" class="amount pink">N10,000</text>
     </g>
   </g>
 
@@ -84,20 +84,20 @@
     <rect x="70" y="650" width="510" height="270" rx="20" class="card"/>
     <rect x="70" y="650" width="10" height="270" rx="5" class="pink"/>
     <text x="110" y="706" class="sectionTitle ink">📅 Season Format</text>
-    <text x="110" y="758" class="body ink">• One league table with 19 players.</text>
-    <text x="110" y="802" class="body ink">• Everyone plays home &amp; away.</text>
-    <text x="110" y="846" class="body ink">• Fixtures run across 4 game weeks.</text>
-    <text x="110" y="890" class="body ink">• Top 4 win prize money.</text>
+    <text x="110" y="758" class="body ink">• 2 groups of 10 players.</text>
+    <text x="110" y="802" class="body ink">• Play group opponents home &amp; away.</text>
+    <text x="110" y="846" class="body ink">• Fixtures run across 3 game weeks.</text>
+    <text x="110" y="890" class="body ink">• 18 games per player.</text>
   </g>
 
   <g filter="url(#shadow)">
     <rect x="620" y="650" width="510" height="270" rx="20" class="card"/>
     <rect x="620" y="650" width="10" height="270" rx="5" class="cyan"/>
     <text x="660" y="706" class="sectionTitle ink">🏆 Qualification</text>
-    <text x="660" y="758" class="body ink">• Top 8 qualify for the knockout</text>
-    <text x="682" y="796" class="body ink">tournament after the league.</text>
-    <text x="660" y="846" class="body ink">• MIP is strictly decided by vote.</text>
-    <text x="660" y="890" class="body ink">• Surprise impact matters. 👀</text>
+    <text x="660" y="758" class="body ink">• Top 4 in each group qualify</text>
+    <text x="682" y="796" class="body ink">for the knockout tournament.</text>
+    <text x="660" y="846" class="body ink">• Top 8 move into Division 1.</text>
+    <text x="660" y="890" class="body ink">• Bottom 2 move into Division 2.</text>
   </g>
 
   <g filter="url(#shadow)">

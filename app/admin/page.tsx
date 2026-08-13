@@ -79,7 +79,7 @@ export default async function AdminPage() {
         </div>
         <div className="rounded-md border border-line bg-white p-4 shadow-glow">
           <Table2 className="mb-3 text-gold" />
-          <p className="text-3xl font-black text-ink">19</p>
+          <p className="text-3xl font-black text-ink">20</p>
           <p className="text-sm font-black uppercase tracking-[0.14em] text-ink/55">
             Teams
           </p>

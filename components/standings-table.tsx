@@ -35,6 +35,14 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
             <span className="h-5 w-1.5 rounded-full bg-[#04f5ff]" />
             Qualifies for Knockout Tournament
           </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-5 w-1.5 rounded-full bg-[#ffd44d]" />
+            Qualifies for Division 1
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-5 w-1.5 rounded-full bg-[#e90052]" />
+            Moves to Division 2
+          </span>
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -58,22 +66,36 @@ export function StandingsTable({ title, rows }: { title: string; rows: Standing[
           <tbody className="divide-y divide-line">
             {rows.map((row, index) => {
               const place = index + 1;
-              const isPrizePlace = place <= 4;
-              const isQualifier = place <= 8;
+              const isPrizePlace = place <= 2;
+              const isKnockoutQualifier = place <= 4;
+              const isDivisionOne = place <= 8;
+              const isDivisionTwo = place > rows.length - 2;
               const rowClass = isPrizePlace
                 ? "bg-[#fff2f8]"
-                : isQualifier
+                : isKnockoutQualifier
                   ? "bg-[#e8feff]"
+                  : isDivisionOne
+                    ? "bg-[#fff9db]"
+                    : isDivisionTwo
+                      ? "bg-[#fff0f3]"
                   : undefined;
               const pointsBg = isPrizePlace
                 ? "bg-[#fff2f8]"
-                : isQualifier
+                : isKnockoutQualifier
                   ? "bg-[#e8feff]"
+                  : isDivisionOne
+                    ? "bg-[#fff9db]"
+                    : isDivisionTwo
+                      ? "bg-[#fff0f3]"
                   : "bg-white";
               const markerClass = isPrizePlace
                 ? "bg-[#ff2882]"
-                : isQualifier
+                : isKnockoutQualifier
                   ? "bg-[#04f5ff]"
+                  : isDivisionOne
+                    ? "bg-[#ffd44d]"
+                    : isDivisionTwo
+                      ? "bg-[#e90052]"
                   : "bg-transparent";
 
               return (

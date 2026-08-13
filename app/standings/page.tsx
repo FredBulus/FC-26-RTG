@@ -17,7 +17,8 @@ export default async function StandingsPage() {
     <div>
       <PageTitle eyebrow="Tables" title="Group Standings">
         Points, wins, draws, losses, goals, and goal difference update automatically.
-        The top 4 win prizes and the top 8 qualify for the knockout tournament.
+        Each group has prize places, knockout qualifiers, Division 1 places, and
+        Division 2 movement marked on the table.
       </PageTitle>
       <div className="grid gap-6">
         {Object.entries(standingsByGroup).map(([groupName, rows]) => (

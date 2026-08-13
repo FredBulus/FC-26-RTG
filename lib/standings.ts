@@ -17,8 +17,17 @@ export function sortStandings(rows: Standing[]) {
 }
 
 export function standingsWithPositions(rows: Standing[]) {
-  return sortStandings(rows).map((row, index) => ({
-    ...row,
-    position: index + 1
-  }));
+  const groupedRows = rows.reduce<Record<string, Standing[]>>((groups, row) => {
+    const groupId = row.group_id;
+    groups[groupId] = groups[groupId] ?? [];
+    groups[groupId].push(row);
+    return groups;
+  }, {});
+
+  return Object.values(groupedRows).flatMap((groupRows) =>
+    sortStandings(groupRows).map((row, index) => ({
+      ...row,
+      position: index + 1
+    }))
+  );
 }

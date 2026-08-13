@@ -22,7 +22,7 @@ export function FixtureSchedule({
       fixtures
         .map((match) => ({ ...match, gameWeekName: gameWeekName(match) }))
         .sort((a, b) => {
-          return a.matchday - b.matchday;
+          return a.matchday - b.matchday || (a.groups?.name ?? "").localeCompare(b.groups?.name ?? "");
         }),
     [fixtures]
   );
@@ -44,7 +44,7 @@ export function FixtureSchedule({
   return (
     <section className="space-y-5">
       <div className="rounded-md border border-line bg-white p-2 shadow-glow">
-        <div className="grid gap-2 sm:grid-cols-4">
+        <div className="grid gap-2 sm:grid-cols-3">
           {gameWeeks.map((week) => (
             <button
               key={week}

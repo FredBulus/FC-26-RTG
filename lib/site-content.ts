@@ -1,29 +1,34 @@
 export const siteContent = {
   tournamentName: "FC 26 League",
   rulesIntro:
-    "The season starts on 15 August and runs for four weeks. Please play your games early, report results clearly, and keep the league moving.",
+    "The season starts on 15 August and runs for three weeks. Please play your games early, report results clearly, and keep the league moving.",
   prizeList: [
-    { place: "Winner", amount: "N42,500" },
-    { place: "2nd place", amount: "N20,000" },
-    { place: "3rd place", amount: "N15,000" },
-    { place: "4th place", amount: "N10,000" },
-    { place: "MIP", amount: "N7,500" }
+    { place: "Group A Winner", amount: "N30,000" },
+    { place: "Group A 2nd", amount: "N15,000" },
+    { place: "Group B Winner", amount: "N30,000" },
+    { place: "Group B 2nd", amount: "N15,000" },
+    { place: "MIP", amount: "N10,000" }
   ],
   rules: [
     {
       title: "Season Format",
       items: [
-        "19 players compete in one league table.",
-        "Every player plays every other player home and away.",
-        "Fixtures are split across four game weeks.",
-        "The top 4 qualify for prize money.",
-        "The top 8 qualify for the knockout tournament at the end of the league."
+        "20 players are split into Group A and Group B.",
+        "Each group has 10 players.",
+        "Every player plays everyone in their group home and away.",
+        "Fixtures are split across three game weeks.",
+        "The top 4 from each group qualify for the knockout tournament.",
+        "The top 8 from each group move into Division 1 next season.",
+        "The bottom 2 from each group move into Division 2 next season."
       ]
     },
     {
       title: "Registration & Prizes",
       items: [
         "Registration is N5,000 for players taking part in the league this season.",
+        "Total prize money is N100,000.",
+        "Each group has N45,000 in prize money: N30,000 for 1st place and N15,000 for 2nd place.",
+        "The remaining N10,000 goes to the overall MIP.",
         "The Most Impressive Player award highlights the player who surprises the league most through their position, performances, or overall impact.",
         "MIP is decided strictly by vote."
       ]
@@ -31,7 +36,7 @@ export const siteContent = {
     {
       title: "Match Rules",
       items: [
-        "All games are home and away.",
+        "All group games are home and away.",
         "The home player has the advantage of selecting a team first.",
         "No machinery.",
         "If you quit a game during gameplay, you lose that game 3-0.",

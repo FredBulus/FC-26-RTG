@@ -46,7 +46,15 @@ export async function getStandings() {
 
   if (error) throw error;
 
-  const sortedStandings = standingsWithPositions(data as Standing[]);
+  const sortedStandings = standingsWithPositions(data as Standing[]).sort((a, b) => {
+    const groupSort = (a.groups?.name ?? "").localeCompare(b.groups?.name ?? "", undefined, {
+      sensitivity: "base"
+    });
+
+    if (groupSort !== 0) return groupSort;
+
+    return (a.position ?? 0) - (b.position ?? 0);
+  });
   const { data: snapshots } = await supabase
     .from("standing_position_snapshots")
     .select("team_id, previous_position");

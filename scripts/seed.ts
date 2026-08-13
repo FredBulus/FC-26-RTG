@@ -28,7 +28,7 @@ async function main() {
   console.log("Starting FC 26 League seed...");
 
   const teamNames = [
-    "A1teey",
+    "Ibelieverr",
     "Deelo_official",
     "Fr3ddreek",
     "Sixdigits_man",
@@ -46,24 +46,60 @@ async function main() {
     "Lastbreed77",
     "Sanematic",
     "Funzy",
-    "Emeka"
+    "Emeka",
+    "Gameon9910"
   ].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+
+  const groupASeeds = [
+    "Blvck_sparrow60",
+    "Sixdigits_man",
+    "Demreal",
+    "Onli-1-ik",
+    "Sanematic"
+  ];
+  const groupBSeeds = ["Mr-blaze24-", "Fr3ddreek", "Lastbreed77", "Quivcy"];
+
+  function seededShuffle(values: string[]) {
+    return [...values].sort((a, b) => {
+      const score = (value: string) =>
+        Array.from(value).reduce((total, char, index) => total + char.charCodeAt(0) * (index + 7), 0) % 997;
+      return score(a) - score(b) || a.localeCompare(b, undefined, { sensitivity: "base" });
+    });
+  }
+
+  const seededPlayers = new Set([...groupASeeds, ...groupBSeeds]);
+  const remainingPlayers = seededShuffle(teamNames.filter((teamName) => !seededPlayers.has(teamName)));
+  const groupA = [...groupASeeds, ...remainingPlayers.slice(0, 5)].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base" })
+  );
+  const groupB = [...groupBSeeds, ...remainingPlayers.slice(5)].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base" })
+  );
+  const groups = [
+    { name: "Group A", teams: groupA },
+    { name: "Group B", teams: groupB }
+  ];
+
+  console.log(`Group A: ${groupA.join(", ")}`);
+  console.log(`Group B: ${groupB.join(", ")}`);
 
   // 1. Clean previous tournament data, keeping admins/auth intact.
   await check(supabase.from("knockout_matches").delete().neq("label", "__never__"));
   await check(supabase.from("groups").delete().neq("name", "__never__"));
 
-  // 2. League
-  await check(supabase.from("groups").insert([{ name: "League" }]));
+  // 2. Groups
+  await check(supabase.from("groups").insert(groups.map((group) => ({ name: group.name }))));
   const groupRows = await check(supabase.from("groups").select("id,name"));
-  const leagueId = groupRows.find((group: any) => group.name === "League")?.id;
+  const groupIds = new Map(groupRows.map((group: any) => [group.name, group.id]));
 
   // 3. Teams
-  const teamData = teamNames.map((teamName, index) => ({
-    name: teamName,
-    group_id: leagueId,
-    display_order: index + 1
-  }));
+  const teamData = groups.flatMap((group) =>
+    group.teams.map((teamName, index) => ({
+      name: teamName,
+      group_id: groupIds.get(group.name),
+      display_order: index + 1
+    }))
+  );
 
   await check(supabase.from("teams").insert(teamData));
   const teamRows = await check(supabase.from("teams").select("id, name, group_id, display_order"));
@@ -77,41 +113,45 @@ async function main() {
 
   const t = new Map(teamRows.map((team: any) => [team.name, team.id]));
 
-  // 5. Fixtures: every team plays every other team home and away.
+  // 5. Fixtures: each group plays home and away.
   const fixturePairs = [];
 
-  for (let homeIndex = 0; homeIndex < teamNames.length; homeIndex += 1) {
-    for (let awayIndex = homeIndex + 1; awayIndex < teamNames.length; awayIndex += 1) {
-      fixturePairs.push({
-        group_id: leagueId,
-        home_team_id: t.get(teamNames[homeIndex]),
-        away_team_id: t.get(teamNames[awayIndex])
-      });
-      fixturePairs.push({
-        group_id: leagueId,
-        home_team_id: t.get(teamNames[awayIndex]),
-        away_team_id: t.get(teamNames[homeIndex])
-      });
+  for (const group of groups) {
+    const groupId = groupIds.get(group.name);
+
+    for (let homeIndex = 0; homeIndex < group.teams.length; homeIndex += 1) {
+      for (let awayIndex = homeIndex + 1; awayIndex < group.teams.length; awayIndex += 1) {
+        fixturePairs.push({
+          group_id: groupId,
+          home_team_id: t.get(group.teams[homeIndex]),
+          away_team_id: t.get(group.teams[awayIndex])
+        });
+        fixturePairs.push({
+          group_id: groupId,
+          home_team_id: t.get(group.teams[awayIndex]),
+          away_team_id: t.get(group.teams[homeIndex])
+        });
+      }
     }
   }
 
   const fixturesData = fixturePairs.map((fixture, index) => ({
     ...fixture,
-    matchday: Math.floor((index * 4) / fixturePairs.length) + 1
+    matchday: Math.floor((index * 3) / fixturePairs.length) + 1
   }));
 
   await check(supabase.from("fixtures").insert(fixturesData));
-  console.log(`${fixturesData.length} league fixtures inserted across 4 game weeks.`);
+  console.log(`${fixturesData.length} league fixtures inserted across 3 game weeks.`);
 
   await check(supabase.rpc("recalculate_standings"));
   await check(
     supabase
       .from("standing_position_snapshots")
       .upsert(
-        teamNames.map((teamName, index) => ({
+        groups.flatMap((group) => group.teams.map((teamName, index) => ({
           team_id: t.get(teamName),
           previous_position: index + 1
-        })),
+        }))),
         { onConflict: "team_id" }
       )
   );
