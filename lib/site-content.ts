@@ -44,6 +44,17 @@ export const siteContent = {
       ]
     },
     {
+      title: "Squad Settings",
+      items: [
+        "Live Form must be turned ON for all matches.",
+        "Everyone must have the latest squad updates before playing.",
+        "When sending an invite, select Online Squads and not Custom Squads in Match Settings.",
+        "If there is any dispute about squads or player ratings, a screenshot or video of the team selection screen may be requested.",
+        "These rules make sure everyone plays with the same official squads and ratings.",
+        "Please double-check your settings before starting your match."
+      ]
+    },
+    {
       title: "Streaming & Results",
       items: [
         "Please stream your games and share links where possible, including Twitch or YouTube.",

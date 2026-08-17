@@ -136,12 +136,12 @@
   <g filter="url(#shadow)">
     <rect x="620" y="1330" width="510" height="330" rx="20" class="card"/>
     <rect x="620" y="1330" width="10" height="330" rx="5" class="gold"/>
-    <text x="660" y="1386" class="sectionTitle ink">🧑‍⚖️ Admin Reviews</text>
-    <text x="660" y="1438" class="body ink">• Play games as soon as you can.</text>
-    <text x="660" y="1482" class="body ink">• If stuck, contact Isah or Fred.</text>
-    <text x="660" y="1526" class="body ink">• Game weeks are reviewed weekly.</text>
-    <text x="660" y="1570" class="body ink">• Unplayed games may be rescheduled</text>
-    <text x="682" y="1608" class="body ink">or forfeited case by case.</text>
+    <text x="660" y="1386" class="sectionTitle ink">🎮 Squad Settings</text>
+    <text x="660" y="1438" class="body ink">• Live Form must be ON.</text>
+    <text x="660" y="1482" class="body ink">• Update squads before playing.</text>
+    <text x="660" y="1526" class="body ink">• Select Online Squads, not</text>
+    <text x="682" y="1564" class="body ink">Custom Squads.</text>
+    <text x="660" y="1610" class="body ink">• Squad disputes may need proof.</text>
   </g>
 
   <text x="600" y="1724" text-anchor="middle" class="sectionTitle ink">Most importantly, let’s enjoy ourselves! 🎉</text>
